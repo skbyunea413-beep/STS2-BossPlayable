@@ -103,12 +103,12 @@ Cards such as `MixedSignals`, `BorrowedFangs`, `PrismWhirlwind`, `RadiantGamble`
 
 4. Starter relic value is too high and too global.
 
-`PrismaticShard` currently:
+`PrismaticShard` originally:
 - Adds Prism cards to eligible card reward pools.
 - Adds a random enchantment to every card reward.
 - Applies 1 to 3 stacks.
 
-That is closer to a run-defining boss relic or special modifier than a normal starter relic.
+That was closer to a run-defining boss relic or special modifier than a normal starter relic. The current direction is to keep reward-pool injection and make generated off-class cards cost 1 less only on the turn they are created.
 
 5. Rarity distribution is inconsistent.
 
@@ -142,7 +142,7 @@ A reasonable starter shape:
 
 Good starter relic directions:
 - Add occasional Prism cards to rewards.
-- Or lightly improve off-class cards.
+- Lightly improve generated off-class cards.
 - Or provide a small combat-start cross-pool option.
 
 It should not both change reward pools and enchant every reward.
@@ -164,8 +164,8 @@ High-confidence changes:
 
 1. Add `cardPlay.IsAutoPlay` guard to `DopaminePower`.
 2. Remove `PrismCardPool` from generic random card generation, or only include Prism cards through explicit Prism-card effects.
-3. Change `PrismaticShard` to either reward-pool injection or reward enchantment, not both.
-4. Reduce reward enchantment to a small chance or 1 stack only.
+3. Keep `PrismaticShard` reward-pool injection, but replace reward enchantments with "generated other-character cards cost 1 less this turn."
+4. Avoid permanent or combat-long discounts until Prism's card generation volume is under control.
 5. Replace starter `RadiantGamble` with a safer starter identity card.
 6. Remove either `Innate` or `Retain` from `Pulsate`; remove `Innate` first.
 7. Normalize declared rarities for `GentAndFect`, `GhostNGoblins`, and `PeakOfFolly`.
@@ -174,4 +174,3 @@ Suggested design direction:
 - Prism should feel like a "draft and refract" character.
 - The player should choose or receive off-class cards, then make them cheaper, safer, or more explosive through Prism cards.
 - Prism should not be strongest when the player stops making choices and lets autoplay resolve the fight.
-

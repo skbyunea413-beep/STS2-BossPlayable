@@ -1,5 +1,5 @@
 {
   "PRISM_MOD_RELIC_PRISMATIC_SHARD.title": "프리즘 파편",
-  "PRISM_MOD_RELIC_PRISMATIC_SHARD.description": "[color=#ff4d4d]특[/color][color=#ff9f1c]별[/color][color=#ffd60a]한[/color] [color=#43d17a]유[/color][color=#31c6f7]물[/color]을 둘 가지고 시작합니다. 카드 보상에 무작위 인챈트를 1~3 부여합니다.",
+  "PRISM_MOD_RELIC_PRISMATIC_SHARD.description": "카드 보상에 프리즘 카드가 등장할 수 있습니다. 생성한 다른 직업 카드는 이번 턴 비용이 1 감소합니다.",
   "PRISM_MOD_RELIC_PRISMATIC_SHARD.flavor": "너무 많은 가능성을 비추는 조각."
 }

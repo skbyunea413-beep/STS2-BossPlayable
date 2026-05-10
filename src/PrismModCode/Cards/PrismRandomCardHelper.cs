@@ -72,6 +72,7 @@ internal static class PrismRandomCardHelper
             return null;
         }
 
+        player.Relics.OfType<PrismaticShard>().FirstOrDefault()?.ApplyGeneratedCardDiscount(card);
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
         return card;
     }
