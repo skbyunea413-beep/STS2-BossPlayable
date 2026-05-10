@@ -5,26 +5,46 @@
 Project name:
 
 ```text
-Boss Playable: Prism
+STS2 Boss Playable
 ```
 
-This is a Slay the Spire 2 mod that makes Prism playable as the first character in a broader "Boss Playable" project.
+This is a Slay the Spire 2 project for making bosses, ancient beings, and special encounters playable.
 
-Repository scope:
-
-- This repository is for the Prism playable character.
-- Future boss-playable characters can be separate repositories or sibling projects.
-
-## Current Mod
+Current entry:
 
 ```text
+Prism
+```
+
+Prism is the first playable boss entry and currently occupies the root `src/` project for build stability.
+
+## Repository Scope
+
+This repository is bigger than a single Prism-only mod.
+
+Current reality:
+
+- `src/` contains the active Prism implementation.
+- `PrismMod` is the current in-game mod id.
+- Release packaging currently produces a `PrismMod` folder.
+
+Long-term direction:
+
+- Keep this repository as the shared Boss Playable project.
+- Add future playable bosses as new entries when needed.
+- Consider moving Prism into `characters/Prism/` only when there is a second entry and the build scripts are ready for a multi-module layout.
+
+## Current Mod Entry
+
+```text
+Entry name: Prism
 Mod id: PrismMod
 Display name: Prism Shirou
 Author: nagis
 Game: Slay the Spire 2
 ```
 
-The mod currently uses a gambling/random-cast card identity with boss/ancient event interactions.
+The current Prism entry uses a gambling/random-cast card identity with boss and ancient-event interactions.
 
 ## Stable Dependencies
 
@@ -84,9 +104,7 @@ src/PrismMod/localization/
 INSTALLATION.txt
 ```
 
-## Design Notes
-
-Current character themes:
+## Current Prism Design Notes
 
 - Prism is a straightforward, aggressive playable boss character.
 - Random card casting and gambling effects are a major mechanic.
@@ -139,7 +157,8 @@ Use GitHub Releases for player-facing packaged builds.
 Use this at the start of a new session:
 
 ```text
-This repository is Boss Playable: Prism, a Slay the Spire 2 playable boss-character mod.
+This repository is STS2 Boss Playable, a Slay the Spire 2 project for playable boss-character mods.
+The current entry is Prism, implemented in src/ as PrismMod.
 Read README.md and PROJECT_CONTEXT.md first, then continue from the current source state.
 Use BaseLib 3.1.2 and STS2-RitsuLib 0.2.28 unless I explicitly ask to update dependencies.
 After code changes, run dotnet build src/PrismMod.csproj and dotnet publish src/PrismMod.csproj.

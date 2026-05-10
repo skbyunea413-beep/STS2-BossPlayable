@@ -2,6 +2,8 @@
 
 Use this when preparing a GitHub release.
 
+This repository is the broader `STS2 Boss Playable` project. The current release package is for the first entry, `Prism`, whose in-game mod id is `PrismMod`.
+
 ## Before Packaging
 
 - Run `dotnet build src/PrismMod.csproj`.
@@ -14,7 +16,7 @@ BaseLib 3.1.2
 STS2-RitsuLib 0.2.28
 ```
 
-## Release Folder
+## Current Prism Release Folder
 
 Package the published game mod folder:
 
@@ -22,7 +24,7 @@ Package the published game mod folder:
 Slay the Spire 2/mods/PrismMod
 ```
 
-Expected release contents:
+Expected current Prism release contents:
 
 ```text
 PrismMod/

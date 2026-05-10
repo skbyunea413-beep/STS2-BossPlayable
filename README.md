@@ -1,20 +1,70 @@
-# Boss Playable: Prism
+# STS2 Boss Playable
 
-Prism is a playable boss-character mod for **Slay the Spire 2**.
+This repository is a **Boss Playable** project for **Slay the Spire 2**.
 
-This repository is the Prism entry in a broader "Boss Playable" mod project: the goal is to turn selected bosses and ancient beings into fully playable characters with their own card pools, relics, dialogue hooks, and event interactions.
+The long-term goal is to turn selected bosses, ancient beings, and special encounters into playable characters with their own card pools, relics, dialogue hooks, event interactions, and release packages.
 
-## Current Status
+The current playable entry is:
 
-- Playable character: **Prism Shirou**
+```text
+Prism
+```
+
+Prism still uses the in-game mod id `PrismMod`. That name is part of the current Slay the Spire 2 mod package and should remain stable unless the project is deliberately migrated.
+
+## Project Scope
+
+```text
+Project: STS2 Boss Playable
+Current entry: Prism
+Current game mod id: PrismMod
+Current source location: src/
+```
+
+The repository is intentionally larger than Prism alone. Prism is the first implementation and currently lives at the repository root for build stability. Future boss entries can be added as sibling modules once the project grows beyond a single playable character.
+
+Possible future layout:
+
+```text
+characters/
+  Prism/
+  Architect/
+  Orobas/
+shared/
+docs/
+```
+
+Current layout:
+
+```text
+.
+|-- src/                         # Current PrismMod Godot/.NET project
+|   |-- PrismModCode/             # C# gameplay code
+|   |-- PrismMod/                 # Godot resources, localization, images
+|   |-- PrismMod.csproj
+|   `-- PrismMod.json
+|-- tools/                       # Dependency helper scripts
+|-- design/                      # Early design notes
+|-- IMAGE/                       # Source/reference image material
+|-- INSTALLATION.txt             # Player installation guide
+|-- PROJECT_CONTEXT.md           # Handoff notes for contributors and AI sessions
+|-- RELEASE_CHECKLIST.md
+`-- install_stable_sts2_dependencies.bat
+```
+
+## Current Entry: Prism
+
+- Playable character: `Prism Shirou`
 - Mod id: `PrismMod`
 - Game: Slay the Spire 2
 - Language data: English and Korean
 - Install guide: Korean, English, and Chinese in [INSTALLATION.txt](INSTALLATION.txt)
 
+Prism currently uses a gambling/random-cast identity with custom boss and ancient-event interactions.
+
 ## Required Dependencies
 
-Prism currently targets these stable library versions:
+The currently validated dependency versions are:
 
 ```text
 BaseLib 3.1.2
@@ -23,24 +73,7 @@ STS2-RitsuLib 0.2.28
 
 The dependency installer included with the mod installs those exact versions.
 
-Manual download links are also listed in [INSTALLATION.txt](INSTALLATION.txt).
-
-## Project Layout
-
-```text
-.
-├── src/                         # Godot/.NET Slay the Spire 2 mod project
-│   ├── PrismModCode/             # C# gameplay code
-│   ├── PrismMod/                 # Godot resources, localization, images
-│   ├── PrismMod.csproj
-│   └── PrismMod.json
-├── tools/                       # Dependency helper scripts
-├── design/                      # Early design notes
-├── IMAGE/                       # Source/reference image material
-├── INSTALLATION.txt             # User installation guide
-├── PROJECT_CONTEXT.md           # Handoff notes for future contributors or AI sessions
-└── install_stable_sts2_dependencies.bat
-```
+Manual download links are listed in [INSTALLATION.txt](INSTALLATION.txt).
 
 ## Build
 
@@ -63,7 +96,7 @@ Publish:
 dotnet publish src/PrismMod.csproj
 ```
 
-Build and publish copy the mod files into the detected Slay the Spire 2 `mods/PrismMod` folder.
+Build and publish copy the current Prism mod files into the detected Slay the Spire 2 `mods/PrismMod` folder.
 
 ## Installation
 
@@ -81,17 +114,17 @@ See [INSTALLATION.txt](INSTALLATION.txt) for detailed instructions in Korean, En
 
 Do not commit compiled `.dll` or `.pck` files to this source repository.
 
-Recommended release asset:
+Recommended current Prism release asset:
 
 ```text
 PrismMod.zip
-└── PrismMod/
-    ├── PrismMod.dll
-    ├── PrismMod.pck
-    ├── PrismMod.json
-    ├── INSTALLATION.txt
-    ├── install_stable_sts2_dependencies.bat
-    └── tools/
+`-- PrismMod/
+    |-- PrismMod.dll
+    |-- PrismMod.pck
+    |-- PrismMod.json
+    |-- INSTALLATION.txt
+    |-- install_stable_sts2_dependencies.bat
+    `-- tools/
 ```
 
 ## Future Sessions
