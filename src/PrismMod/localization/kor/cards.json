@@ -18,7 +18,7 @@
     "PRISM_MOD_CARD_COMMON_RUMMAGE.title":  "흔한 뒤적임",
     "PRISM_MOD_CARD_COMMON_RUMMAGE.description":  "무작위 일반 카드를 {Cards:diff}장 가져옵니다.",
     "PRISM_MOD_CARD_PEAK_OF_FOLLY.title":  "우매함의 봉우리",
-    "PRISM_MOD_CARD_PEAK_OF_FOLLY.description":  "내 버린 카드 더미에 돌을 {Cards:diff}장 넣습니다. 강화 시 대신 돌+을 넣습니다. 무작위 일반 카드를 {PlayedCards:diff}장 시전합니다.",
+    "PRISM_MOD_CARD_PEAK_OF_FOLLY.description":  "다른 직업의 무작위 일반 카드를 {Cards:diff}장 가져옵니다. 내 버린 카드 더미에 돌을 {Rocks:diff}장 넣습니다.",
     "PRISM_MOD_CARD_GHOST_N_GOBLINS.title":  "마계촌",
     "PRISM_MOD_CARD_GHOST_N_GOBLINS.description":  "소환 {Summon:diff}. 단조 {Forge:diff}. 이 효과를 소멸된 카드 더미의 카드 수만큼 반복합니다.",
     "PRISM_MOD_CARD_GENT_AND_FECT.title":  "젠트와펙트",

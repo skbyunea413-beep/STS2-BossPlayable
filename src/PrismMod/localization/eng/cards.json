@@ -18,7 +18,7 @@
     "PRISM_MOD_CARD_COMMON_RUMMAGE.title":  "Common Rummage",
     "PRISM_MOD_CARD_COMMON_RUMMAGE.description":  "Add {Cards:diff} random Common card(s) to your hand.",
     "PRISM_MOD_CARD_PEAK_OF_FOLLY.title":  "Peak of Folly",
-    "PRISM_MOD_CARD_PEAK_OF_FOLLY.description":  "Add {Cards:diff} Giant Rocks to your discard pile. If upgraded, add Giant Rock+ instead. Play {PlayedCards:diff} random Common card(s).",
+    "PRISM_MOD_CARD_PEAK_OF_FOLLY.description":  "Add {Cards:diff} random Common cards from other characters to your hand. Add {Rocks:diff} Giant Rocks to your discard pile.",
     "PRISM_MOD_CARD_GHOST_N_GOBLINS.title":  "Ghosts 'n Goblins",
     "PRISM_MOD_CARD_GHOST_N_GOBLINS.description":  "Summon {Summon:diff}. Forge {Forge:diff}. Repeat this effect for each card in your Exhaust pile.",
     "PRISM_MOD_CARD_GENT_AND_FECT.title":  "Gent and Fect",
