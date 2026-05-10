@@ -22,9 +22,12 @@ public sealed class PrismaticShard : PrismRelic
         return options.WithCardPools(pools, options.CardPoolFilter);
     }
 
-    internal void ApplyGeneratedCardDiscount(CardModel card)
+    internal void ApplyGeneratedCardModifiers(CardModel card)
     {
         if (card.Owner != base.Owner) return;
+
+        card.AddKeyword(CardKeyword.Exhaust);
+
         if (card.EnergyCost.CostsX) return;
         if (!IsOtherCharacterCard(card)) return;
 

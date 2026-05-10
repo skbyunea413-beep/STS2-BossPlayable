@@ -7,7 +7,7 @@ Source basis:
 - Prism implementation in this repository under `src/PrismModCode`.
 - Snapshot date: 2026-05-10.
 
-The purpose is not to copy the base game. The purpose is to keep Prism close to the same power budget while preserving its identity: straightforward attack pressure supported by cards from other jobs.
+The purpose is not to copy the base game. The purpose is to keep Prism close to the same power budget while preserving its identity: straightforward attack pressure, generated cards from other jobs, and Exhaust-pile payoffs.
 
 ## Base Character Baseline
 
@@ -108,7 +108,7 @@ Cards such as `MixedSignals`, `BorrowedFangs`, `PrismWhirlwind`, `RadiantGamble`
 - Adds a random enchantment to every card reward.
 - Applies 1 to 3 stacks.
 
-That was closer to a run-defining boss relic or special modifier than a normal starter relic. The current direction is to keep reward-pool injection and make generated off-class cards cost 1 less only on the turn they are created.
+That was closer to a run-defining boss relic or special modifier than a normal starter relic. The current direction is to keep reward-pool injection, make generated cards gain Exhaust, and make generated off-class cards cost 1 less only on the turn they are created.
 
 5. Rarity distribution is inconsistent.
 
@@ -125,6 +125,10 @@ Use these rules before changing individual numbers:
 0. Prism's main plan is direct pressure.
 
 The deck should be able to win by attacking consistently. Off-class cards should broaden lines, patch weaknesses, or create burst windows; they should not be the only reason the character functions.
+
+0.5. Generated cards are temporary fuel.
+
+Generated cards should usually gain Exhaust. This keeps off-class generation from becoming permanent value, makes the discounted turn matter, and gives Prism a real Exhaust-pile subtheme.
 
 1. Cross-pool access should be priced as premium utility.
 
@@ -168,7 +172,7 @@ High-confidence changes:
 
 1. Add `cardPlay.IsAutoPlay` guard to `DopaminePower`.
 2. Remove `PrismCardPool` from generic random card generation, or only include Prism cards through explicit Prism-card effects.
-3. Keep `PrismaticShard` reward-pool injection, but replace reward enchantments with "generated other-character cards cost 1 less this turn."
+3. Keep `PrismaticShard` reward-pool injection, but replace reward enchantments with "generated cards gain Exhaust; generated other-character cards cost 1 less this turn."
 4. Avoid permanent or combat-long discounts until Prism's card generation volume is under control.
 5. Replace starter `RadiantGamble` with a safer starter identity card.
 6. Remove either `Innate` or `Retain` from `Pulsate`; remove `Innate` first.
