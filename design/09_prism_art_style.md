@@ -43,7 +43,12 @@ Default limited palette:
 - Background: deep violet or red-orange, pick one dominant background color.
 - Optional accent: magenta rim light. Use sparingly.
 
-Do not use all possible Prism colors in one image. Choose one dominant background family and keep the rest as accents.
+Allowed support colors, choose up to 3 per image:
+- Pale stone gray for rocks, teeth-like props, or neutral debris.
+- Warm orange for impact bursts, body highlights, or hot backgrounds.
+- Cyan-blue for small shard highlights or tear drops.
+
+Do not use all possible Prism colors in one image. Choose one dominant background family and keep the rest as accents. A good card usually has the default Prism colors plus only 2 or 3 support colors.
 
 ## Avoid
 
@@ -103,7 +108,7 @@ Subject: the Prism creature: rough red triangular body, black central hollow eye
 Style/medium: Slay the Spire 2-inspired hand-painted vector card illustration, chunky layered shapes, hard cel-shaded gradient planes, clean vector-like color regions, thick black shadow cuts, crisp silhouette, minimal texture
 Composition/framing: 4:3 landscape card portrait composition, close readable subject, dynamic diagonal action, strong silhouette, crop-safe inside a card art window, no card frame
 Lighting/mood: bold yellow energy, magenta rim light, blue shard highlights, dramatic arcade-like impact
-Color palette: limited 5-color palette: near-black purple shadows, dark maroon, flat crimson red, cobalt blue, saturated yellow; optional tiny magenta accent only
+Color palette: limited Prism palette: near-black purple shadows, dark maroon, flat crimson red, cobalt blue, saturated yellow, one dominant deep violet or red-orange background; choose up to 3 support colors from pale stone gray, warm orange, cyan-blue, and magenta accent
 Materials/textures: rough carved red stone, faceted blue crystal drills, black hollow eye socket, graphic energy streaks
 Constraints: no text, no UI, no frame, no watermark, no logo, readable at small size
 Avoid: photorealism, anime, 3D render, heavy brush texture, noisy background, modern sci-fi objects, generic glass prism, generic human hand, elegant thin crystal shards, mouth, teeth, lips, tongue, nose, square composition, over-rendered detail, rich palette, glossy rendering, many highlights
