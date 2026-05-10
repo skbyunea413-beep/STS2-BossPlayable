@@ -130,6 +130,13 @@ The deck should be able to win by attacking consistently. Off-class cards should
 
 Generated cards should usually gain Exhaust. This keeps off-class generation from becoming permanent value, makes the discounted turn matter, and gives Prism a real Exhaust-pile subtheme.
 
+0.75. Card text should avoid repeating keyword and relic rules.
+
+Keep Prism card text short:
+- Write Attack Intent cards as `Attack Intent: <effect>`. Do not repeat "at the start of your next turn" on each card.
+- Write generation cards as "create" or "add" the card. Do not repeat that generated cards gain Exhaust or that generated other-character cards cost 1 less this turn.
+- Put global generated-card rules on `PrismaticShard`, not on every card that creates cards.
+
 1. Cross-pool access should be priced as premium utility.
 
 Adding a random off-class card to hand is usually safer than autoplaying it. If it is autoplayed, it should be limited by rarity, cost, type, or count.

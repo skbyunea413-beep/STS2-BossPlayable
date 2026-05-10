@@ -111,6 +111,7 @@ INSTALLATION.txt
 - The core identity is persistent attack pressure backed by generated cards from other character pools.
 - Generated cards should usually gain Exhaust so they create one-turn decisions and feed Exhaust-pile synergies instead of becoming permanent value loops.
 - Random card use should generally create playable options in hand, not replace player decisions with autoplay chains.
+- Keep card text concise: do not repeat Attack Intent timing or PrismaticShard generated-card rules on every card.
 - The card reward pool uses Ironclad as the base plus Prism cards.
 - `PrismaticShard` adds Prism cards to rewards, gives generated cards Exhaust, and discounts generated other-character cards by 1 for the turn they are created.
 - Some ancient/boss interactions are custom patched for Prism.
