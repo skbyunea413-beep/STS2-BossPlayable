@@ -14,6 +14,8 @@ The character identity is not generic prism magic. Prism art should feel like it
 - High-contrast dark backgrounds or hot red/orange backgrounds with bold action shapes.
 - Thick black shadow cuts, heavy dark outlines, and strong pink/magenta rim light.
 - More vector-like than painterly: large flat color regions, clean shape boundaries, controlled gradients, and minimal texture noise.
+- Restrict each card to a small palette. Prefer 5 to 7 total colors plus black shadow, not full concept-art color variation.
+- Use 2 or 3 value steps per material. Avoid many tiny highlights, hue shifts, and polished rendering passes.
 - No text, card frames, UI, watermarks, logos, or modern objects.
 
 ## Character Motifs
@@ -32,12 +34,16 @@ The character identity is not generic prism magic. Prism art should feel like it
 
 ## Palette
 
-- Prism body: deep red, crimson, dark maroon, orange-red highlights.
-- Eye and energy: saturated yellow, gold, occasional white sparkle.
-- Shards and drills: cobalt blue, cyan-blue, dark navy shadow.
-- Background: deep violet, purple, magenta, crimson, red-orange.
-- Shadows and outlines: near-black purple or black.
-- Rim light: pink/magenta or yellow.
+Default limited palette:
+- Shadow/outline: near-black purple.
+- Prism body dark: dark maroon.
+- Prism body light: flat crimson red.
+- Shards/drills: cobalt blue.
+- Eye/impact: saturated yellow.
+- Background: deep violet or red-orange, pick one dominant background color.
+- Optional accent: magenta rim light. Use sparingly.
+
+Do not use all possible Prism colors in one image. Choose one dominant background family and keep the rest as accents.
 
 ## Avoid
 
@@ -56,6 +62,7 @@ The character identity is not generic prism magic. Prism art should feel like it
 - Mouths, teeth, lips, tongues, noses, or readable facial features other than the single eye.
 - Square preview compositions that do not fit the card portrait crop.
 - Over-rendered concept-art detail that hides the simple vector shape language.
+- Rich multi-hue palettes, glossy rendering, many highlight colors, and excessive material detail.
 - Text inside the image.
 
 ## Card Concept Motifs
@@ -96,10 +103,10 @@ Subject: the Prism creature: rough red triangular body, black central hollow eye
 Style/medium: Slay the Spire 2-inspired hand-painted vector card illustration, chunky layered shapes, hard cel-shaded gradient planes, clean vector-like color regions, thick black shadow cuts, crisp silhouette, minimal texture
 Composition/framing: 4:3 landscape card portrait composition, close readable subject, dynamic diagonal action, strong silhouette, crop-safe inside a card art window, no card frame
 Lighting/mood: bold yellow energy, magenta rim light, blue shard highlights, dramatic arcade-like impact
-Color palette: crimson red Prism body, cobalt blue shards, yellow eye and impact light, deep violet shadows, magenta rim light, red-orange accents
+Color palette: limited 5-color palette: near-black purple shadows, dark maroon, flat crimson red, cobalt blue, saturated yellow; optional tiny magenta accent only
 Materials/textures: rough carved red stone, faceted blue crystal drills, black hollow eye socket, graphic energy streaks
 Constraints: no text, no UI, no frame, no watermark, no logo, readable at small size
-Avoid: photorealism, anime, 3D render, heavy brush texture, noisy background, modern sci-fi objects, generic glass prism, generic human hand, elegant thin crystal shards, mouth, teeth, lips, tongue, nose, square composition, over-rendered detail
+Avoid: photorealism, anime, 3D render, heavy brush texture, noisy background, modern sci-fi objects, generic glass prism, generic human hand, elegant thin crystal shards, mouth, teeth, lips, tongue, nose, square composition, over-rendered detail, rich palette, glossy rendering, many highlights
 ```
 
 ## File Naming
