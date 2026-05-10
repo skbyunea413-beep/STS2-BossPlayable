@@ -13,12 +13,14 @@ The character identity is not generic prism magic. Prism art should feel like it
 - Simple fantasy iconography: the player should understand the card's role quickly.
 - High-contrast dark backgrounds or hot red/orange backgrounds with bold action shapes.
 - Thick black shadow cuts, heavy dark outlines, and strong pink/magenta rim light.
+- More vector-like than painterly: large flat color regions, clean shape boundaries, controlled gradients, and minimal texture noise.
 - No text, card frames, UI, watermarks, logos, or modern objects.
 
 ## Character Motifs
 
 - Red triangular rocky prism body, like layered carved stone or folded muscle.
 - Black central socket or hollow with a small glowing yellow eye.
+- No mouth. Prism's expression comes only from the eye, body tilt, tears, and surrounding motion.
 - Floating blue cone shards, blue drill horns, or faceted blue crystals.
 - Yellow rings, yellow impact bursts, and magenta/purple speed slashes.
 - The Prism creature itself should appear in most card art, either as the main subject or as an unmistakable fragment.
@@ -51,6 +53,9 @@ The character identity is not generic prism magic. Prism art should feel like it
 - Thin elegant glass shards as the main identity; Prism's shapes are chunky and creature-like.
 - Elegant, beautiful, noble, or purely mystical Prism designs.
 - Normal cute mascot proportions without the unsettling one-eyed weirdness.
+- Mouths, teeth, lips, tongues, noses, or readable facial features other than the single eye.
+- Square preview compositions that do not fit the card portrait crop.
+- Over-rendered concept-art detail that hides the simple vector shape language.
 - Text inside the image.
 
 ## Card Concept Motifs
@@ -88,13 +93,13 @@ Asset type: Slay the Spire 2-style card portrait
 Primary request: [CARD SUBJECT AND ACTION]
 Scene/backdrop: simple graphic dark violet, magenta, or red-orange fantasy backdrop with angular speed shapes
 Subject: the Prism creature: rough red triangular body, black central hollow eye with a small glowing yellow pupil, floating blue cone shards or drill horns; [CARD SUBJECT AND ACTION]
-Style/medium: Slay the Spire 2-inspired hand-painted vector card illustration, chunky layered shapes, hard cel-shaded gradient planes, thick black shadow cuts, crisp silhouette
-Composition/framing: close readable portrait composition, dynamic diagonal action, strong silhouette, no card frame
+Style/medium: Slay the Spire 2-inspired hand-painted vector card illustration, chunky layered shapes, hard cel-shaded gradient planes, clean vector-like color regions, thick black shadow cuts, crisp silhouette, minimal texture
+Composition/framing: 4:3 landscape card portrait composition, close readable subject, dynamic diagonal action, strong silhouette, crop-safe inside a card art window, no card frame
 Lighting/mood: bold yellow energy, magenta rim light, blue shard highlights, dramatic arcade-like impact
 Color palette: crimson red Prism body, cobalt blue shards, yellow eye and impact light, deep violet shadows, magenta rim light, red-orange accents
 Materials/textures: rough carved red stone, faceted blue crystal drills, black hollow eye socket, graphic energy streaks
 Constraints: no text, no UI, no frame, no watermark, no logo, readable at small size
-Avoid: photorealism, anime, 3D render, heavy brush texture, noisy background, modern sci-fi objects, generic glass prism, generic human hand, elegant thin crystal shards
+Avoid: photorealism, anime, 3D render, heavy brush texture, noisy background, modern sci-fi objects, generic glass prism, generic human hand, elegant thin crystal shards, mouth, teeth, lips, tongue, nose, square composition, over-rendered detail
 ```
 
 ## File Naming
