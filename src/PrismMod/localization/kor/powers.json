@@ -1,0 +1,21 @@
+{
+  "PRISM_MOD_POWER_ATTACK_INTENT_POWER.title": "공격의도",
+  "PRISM_MOD_POWER_ATTACK_INTENT_POWER.description": "다음 턴 시작 시 모든 적에게 피해를 {Amount}씩 {Repeat}번 줍니다.",
+  "PRISM_MOD_POWER_ATTACK_INTENT_POWER.smartDescription": "다음 턴 시작 시 모든 적에게 피해를 {Amount}씩 {Repeat}번 줍니다.",
+
+  "PRISM_MOD_POWER_PULSATE_POWER.title": "맥박",
+  "PRISM_MOD_POWER_PULSATE_POWER.description": "매 턴이 끝날 때마다 무작위 카드를 {Amount}장 시전합니다.",
+  "PRISM_MOD_POWER_PULSATE_POWER.smartDescription": "매 턴이 끝날 때마다 무작위 카드를 {Amount}장 시전합니다.",
+
+  "PRISM_MOD_POWER_RADIANT_GAMBLE_POWER.title": "찬란한 도박",
+  "PRISM_MOD_POWER_RADIANT_GAMBLE_POWER.description": "내가 공격 카드를 낼 때마다 무작위 카드를 시전합니다. 이 수치가 0이 되면 사라집니다.",
+  "PRISM_MOD_POWER_RADIANT_GAMBLE_POWER.smartDescription": "내가 공격 카드를 낼 때마다 무작위 카드를 시전합니다. 이 수치가 0이 되면 사라집니다.",
+
+  "PRISM_MOD_POWER_DOPAMINE_POWER.title": "도파민",
+  "PRISM_MOD_POWER_DOPAMINE_POWER.description": "내가 카드를 낼 때마다 무작위 카드를 가져오고 그 카드의 비용을 이번 턴 0으로 합니다. 그 후 체력을 {Amount} 잃습니다.",
+  "PRISM_MOD_POWER_DOPAMINE_POWER.smartDescription": "내가 카드를 낼 때마다 무작위 카드를 가져오고 그 카드의 비용을 이번 턴 0으로 합니다. 그 후 체력을 {Amount} 잃습니다.",
+
+  "PRISM_MOD_POWER_VITAL_SPARK_POWER.title": "생명의 불꽃",
+  "PRISM_MOD_POWER_VITAL_SPARK_POWER.description": "공격받을 때마다 다음 턴에 {Energy:energyIcons()}를 얻습니다.",
+  "PRISM_MOD_POWER_VITAL_SPARK_POWER.smartDescription": "공격받을 때마다 다음 턴에 {Energy:energyIcons()}를 얻습니다."
+}

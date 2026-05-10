@@ -1,0 +1,33 @@
+# Build outputs
+bin/
+obj/
+packages/
+*.dll
+*.pdb
+*.pck
+*.zip
+*.nupkg
+
+# Godot generated state
+src/.godot/
+src/.build_mods/
+.godot/
+
+# IDE/editor files
+.vs/
+.idea/
+*.user
+*.suo
+*.DotSettings.user
+
+# Local dependency/output folders
+_dependency_backups/
+_dependency_sources/
+
+# Local helper scripts that are not part of the mod source
+Compress-DCInsideVideo.ps1
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak

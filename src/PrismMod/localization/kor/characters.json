@@ -1,0 +1,18 @@
+{
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.title": "감염된 프리즘",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.titleObject": "감염된 프리즘",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.description": "광학적으로 억울한 삼각형. 구멍 속 노란 눈이 우주 와이파이를 수신하고, 파란 드릴 세 개가 논리 대신 회전합니다. 특별한 유물과 무지개빛 카드 보상으로 첨탑의 분위기를 조금 망칩니다.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.pronounSubject": "그",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.pronounObject": "그를",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.pronounPossessive": "그의",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.possessiveAdjective": "그의",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.goldMonologue": "금화는 빛난다. 프리즘도 빛난다. 따라서 회계는 종료되었다.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.eventDeathPrevention": "프리즘은 잠깐 죽음을 굴절시켰습니다. 법적으로는 아직 살아 있습니다.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.aromaPrinciple": "탄 광물, 젖은 별빛, 그리고 설명할 수 없는 블루베리.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.cardsModifierTitle": "감염된 스펙트럼",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.cardsModifierDescription": "카드 보상에 프리즘 카드가 등장할 수 있습니다.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.alive.endTurnPing": "...",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.dead.endTurnPing": "...",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.mirror.startled": "*\ub2f9\ud669\uc2a4\ub7ec\uc6b4 \uc18c\ub9ac*",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.mirror.incredulous": "*\uc5b4\uc774\uc5c6\ub294 \uc18c\ub9ac*"
+}

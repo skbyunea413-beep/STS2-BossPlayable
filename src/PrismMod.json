@@ -1,0 +1,11 @@
+{
+  "id": "PrismMod",
+  "name": "Prism Shirou",
+  "author": "nagis",
+  "description": "Prism Shirou, a playable boss-character mod for Slay the Spire 2.",
+  "version": "v0.1.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": ["BaseLib", "STS2-RitsuLib"],
+  "affects_gameplay": true
+}

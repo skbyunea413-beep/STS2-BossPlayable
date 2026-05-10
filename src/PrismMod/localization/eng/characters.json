@@ -1,0 +1,18 @@
+{
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.title": "Infected Prism",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.titleObject": "Infected Prism",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.description": "An optically wrong triangle. The yellow eye in the hole receives cosmic Wi-Fi, while three blue drills rotate where logic used to be. Starts with a special relic and sprinkles card rewards with very serious rainbow nonsense.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.pronounSubject": "he",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.pronounObject": "him",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.pronounPossessive": "his",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.possessiveAdjective": "his",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.goldMonologue": "Gold shines. Prism shines. Accounting has concluded.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.eventDeathPrevention": "The prism refracted death for a second. Legally, it is still alive.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.aromaPrinciple": "Burnt minerals, wet starlight, and legally unexplainable blueberry.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.cardsModifierTitle": "Infected Spectrum",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.cardsModifierDescription": "Prism cards can appear in card rewards.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.alive.endTurnPing": "...",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.dead.endTurnPing": "...",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.mirror.startled": "*a startled sound*",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.mirror.incredulous": "*an incredulous sound*"
+}

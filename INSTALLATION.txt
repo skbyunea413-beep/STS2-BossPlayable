@@ -1,0 +1,88 @@
+﻿Prism Mod Installation Guide
+============================
+
+[Korean / 한국어]
+
+1. PrismMod 폴더를 Slay the Spire 2의 mods 폴더에 넣어주세요.
+   예시:
+   C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2\mods\PrismMod
+
+2. PrismMod 폴더 안의 install_stable_sts2_dependencies.bat 파일을 실행해주세요.
+   이 파일은 Prism Mod가 사용하는 안정 버전의 BaseLib와 STS2-RitsuLib을 자동으로 설치합니다.
+
+3. Slay the Spire 2를 실행하고, 모드 목록에서 Prism Shirou를 활성화해주세요.
+
+4. 문제가 생기면 게임을 완전히 종료한 뒤 다시 실행해주세요.
+
+참고:
+- 이 모드는 BaseLib와 STS2-RitsuLib이 필요합니다.
+- install_stable_sts2_dependencies.bat은 현재 Prism Mod가 사용하는 버전의 라이브러리를 설치합니다.
+- 이미 설치된 BaseLib 또는 STS2-RitsuLib은 mods 폴더 안의 _dependency_backups 폴더로 백업됩니다.
+
+자동 설치가 실패했을 때:
+- 아래 파일을 직접 다운로드한 뒤, 압축을 풀어서 Slay the Spire 2의 mods 폴더에 넣어주세요.
+- BaseLib 3.1.2:
+  https://github.com/Alchyr/BaseLib-StS2/releases/download/v3.1.2/BaseLib.3.1.2.zip
+- STS2-RitsuLib 0.2.28:
+  https://github.com/BAKAOLC/STS2-RitsuLib/releases/download/v0.2.28/STS2-RitsuLib.0.2.28.variant-pack.zip
+- 릴리스 페이지:
+  https://github.com/Alchyr/BaseLib-StS2/releases/tag/v3.1.2
+  https://github.com/BAKAOLC/STS2-RitsuLib/releases/tag/v0.2.28
+
+
+[English]
+
+1. Put the PrismMod folder into the Slay the Spire 2 mods folder.
+   Example:
+   C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2\mods\PrismMod
+
+2. Run install_stable_sts2_dependencies.bat inside the PrismMod folder.
+   This installs the stable BaseLib and STS2-RitsuLib versions used by Prism Mod.
+
+3. Launch Slay the Spire 2, then enable Prism Shirou in the mod list.
+
+4. If something does not load correctly, fully close the game and launch it again.
+
+Notes:
+- This mod requires BaseLib and STS2-RitsuLib.
+- install_stable_sts2_dependencies.bat installs the library versions currently used by Prism Mod.
+- Existing BaseLib or STS2-RitsuLib folders are backed up into _dependency_backups inside the mods folder.
+
+If automatic installation fails:
+- Download the files below manually, extract them, and place the extracted folders into the Slay the Spire 2 mods folder.
+- BaseLib 3.1.2:
+  https://github.com/Alchyr/BaseLib-StS2/releases/download/v3.1.2/BaseLib.3.1.2.zip
+- STS2-RitsuLib 0.2.28:
+  https://github.com/BAKAOLC/STS2-RitsuLib/releases/download/v0.2.28/STS2-RitsuLib.0.2.28.variant-pack.zip
+- Release pages:
+  https://github.com/Alchyr/BaseLib-StS2/releases/tag/v3.1.2
+  https://github.com/BAKAOLC/STS2-RitsuLib/releases/tag/v0.2.28
+
+
+[Chinese / 中文]
+
+1. 将 PrismMod 文件夹放入 Slay the Spire 2 的 mods 文件夹中。
+   示例:
+   C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2\mods\PrismMod
+
+2. 运行 PrismMod 文件夹中的 install_stable_sts2_dependencies.bat。
+   该文件会自动安装 Prism Mod 所使用的稳定版本 BaseLib 和 STS2-RitsuLib。
+
+3. 启动 Slay the Spire 2，然后在模组列表中启用 Prism Shirou。
+
+4. 如果模组没有正确加载，请完全关闭游戏后重新启动。
+
+说明:
+- 本模组需要 BaseLib 和 STS2-RitsuLib。
+- install_stable_sts2_dependencies.bat 会安装当前 Prism Mod 使用的库版本。
+- 已存在的 BaseLib 或 STS2-RitsuLib 文件夹会备份到 mods 文件夹内的 _dependency_backups 文件夹。
+
+如果自动安装失败:
+- 请手动下载下面的文件，解压后将解压出的文件夹放入 Slay the Spire 2 的 mods 文件夹。
+- BaseLib 3.1.2:
+  https://github.com/Alchyr/BaseLib-StS2/releases/download/v3.1.2/BaseLib.3.1.2.zip
+- STS2-RitsuLib 0.2.28:
+  https://github.com/BAKAOLC/STS2-RitsuLib/releases/download/v0.2.28/STS2-RitsuLib.0.2.28.variant-pack.zip
+- 发布页面:
+  https://github.com/Alchyr/BaseLib-StS2/releases/tag/v3.1.2
+  https://github.com/BAKAOLC/STS2-RitsuLib/releases/tag/v0.2.28
