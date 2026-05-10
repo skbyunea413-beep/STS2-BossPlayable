@@ -25,6 +25,8 @@ The character identity is not generic prism magic. Prism art should feel like it
 - Hands or bodies can appear, but they should be Prism-like or belong to the card subject. Avoid generic armored hands.
 - Backgrounds use simple graphic shapes, speed lines, faint circles, or broad shadow silhouettes.
 - Motion is shown through sharp angular streaks, not soft particles or noisy brush strokes.
+- The mood should be slightly grotesque but funny: one-eyed, weirdly expressive, charmingly ugly, awkward, and mischievous rather than elegant.
+- Push the "kimo-kawaii" feeling when appropriate: gross-cute tears, goofy panic, odd proportions, and comic discomfort.
 
 ## Palette
 
@@ -47,6 +49,8 @@ The character identity is not generic prism magic. Prism art should feel like it
 - Generic crystal magic with no Prism creature identity.
 - Generic human hands holding cards unless Prism is clearly present.
 - Thin elegant glass shards as the main identity; Prism's shapes are chunky and creature-like.
+- Elegant, beautiful, noble, or purely mystical Prism designs.
+- Normal cute mascot proportions without the unsettling one-eyed weirdness.
 - Text inside the image.
 
 ## Card Concept Motifs
