@@ -11,6 +11,8 @@
     "PRISM_MOD_CARD_RADIANT_GAMBLE.description":  "Play random Exhaust cards until their total cost reaches {CostTotal:diff}.",
     "PRISM_MOD_CARD_BURIED.title":  "Buried",
     "PRISM_MOD_CARD_BURIED.description":  "Gain {Block:diff} Block. Add {Cards:diff} random card(s) to your hand.",
+    "PRISM_MOD_CARD_PRISM_BEAM.title":  "Prism Beam",
+    "PRISM_MOD_CARD_PRISM_BEAM.description":  "Deal {Damage:diff} damage to all enemies. Doubled for each other Prism Beam.",
     "PRISM_MOD_CARD_BORROWED_FANGS.title":  "Borrowed Fangs",
     "PRISM_MOD_CARD_BORROWED_FANGS.description":  "Deal {Damage:diff}x{Repeat} damage. Play a random Attack.",
     "PRISM_MOD_CARD_COMMON_RUMMAGE.title":  "Common Rummage",
