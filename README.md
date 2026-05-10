@@ -62,6 +62,10 @@ Current layout:
 
 Prism currently uses a gambling/random-cast identity with custom boss and ancient-event interactions.
 
+Current balance reference:
+
+- [STS2 base character balance benchmarks](design/08_sts2_balance_benchmarks.md)
+
 ## Required Dependencies
 
 The currently validated dependency versions are:

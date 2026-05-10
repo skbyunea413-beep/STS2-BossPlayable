@@ -101,6 +101,7 @@ src/PrismModCode/Cards/PrismRandomCardHelper.cs
 src/PrismModCode/Relics/PrismaticShard.cs
 src/PrismModCode/Patches/PrismAncientDialoguePatches.cs
 src/PrismMod/localization/
+design/08_sts2_balance_benchmarks.md
 INSTALLATION.txt
 ```
 
@@ -111,6 +112,7 @@ INSTALLATION.txt
 - The card reward pool uses Ironclad as the base plus Prism cards.
 - `PrismaticShard` adds Prism cards to rewards and can apply random stable enchantments.
 - Some ancient/boss interactions are custom patched for Prism.
+- Use `design/08_sts2_balance_benchmarks.md` as the baseline when rebalancing Prism against the base STS2 characters.
 
 Implemented convenience commands:
 
