@@ -7,7 +7,7 @@ Source basis:
 - Prism implementation in this repository under `src/PrismModCode`.
 - Snapshot date: 2026-05-10.
 
-The purpose is not to copy the base game. The purpose is to keep Prism close to the same power budget while preserving its identity: using cards from other jobs.
+The purpose is not to copy the base game. The purpose is to keep Prism close to the same power budget while preserving its identity: straightforward attack pressure supported by cards from other jobs.
 
 ## Base Character Baseline
 
@@ -85,7 +85,7 @@ Implication for Prism:
 - `Reinforce` at 1 energy / 6 damage is normal.
 - `Guard` at 1 energy / 5 block is normal, though its +2 upgrade is weaker than most base Defends.
 - `RadiantGamble` as a starting deck card is not normal. It converts 3 energy into free cross-pool autoplay with a cost-total threshold, which creates very high variance and can bypass intended setup costs.
-- A Prism starter identity card should probably create one controlled off-class card, not autoplay a chain.
+- A Prism starter identity card should probably reinforce the attack-pressure plan or create one controlled off-class card, not autoplay a chain.
 
 ## Current Prism Balance Problems
 
@@ -121,6 +121,10 @@ Base characters start with one starter relic. Prism starts with `PrismaticShard`
 ## Balance Rules For Prism
 
 Use these rules before changing individual numbers:
+
+0. Prism's main plan is direct pressure.
+
+The deck should be able to win by attacking consistently. Off-class cards should broaden lines, patch weaknesses, or create burst windows; they should not be the only reason the character functions.
 
 1. Cross-pool access should be priced as premium utility.
 
@@ -171,6 +175,6 @@ High-confidence changes:
 7. Normalize declared rarities for `GentAndFect`, `GhostNGoblins`, and `PeakOfFolly`.
 
 Suggested design direction:
-- Prism should feel like a "draft and refract" character.
-- The player should choose or receive off-class cards, then make them cheaper, safer, or more explosive through Prism cards.
+- Prism should feel like a stubborn attacker who refracts other jobs' techniques into the current fight.
+- The player should choose or receive off-class cards, then use Prismatic Shard's one-turn discount to convert them into tempo.
 - Prism should not be strongest when the player stops making choices and lets autoplay resolve the fight.

@@ -60,7 +60,7 @@ Current layout:
 - Language data: English and Korean
 - Install guide: Korean, English, and Chinese in [INSTALLATION.txt](INSTALLATION.txt)
 
-Prism currently uses a gambling/random-cast identity with custom boss and ancient-event interactions.
+Prism currently uses a direct attack-pressure identity supported by generated cards from other character pools, with custom boss and ancient-event interactions.
 
 Current balance reference:
 

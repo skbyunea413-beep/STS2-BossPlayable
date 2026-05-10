@@ -44,7 +44,7 @@ Author: nagis
 Game: Slay the Spire 2
 ```
 
-The current Prism entry uses a gambling/random-cast card identity with boss and ancient-event interactions.
+The current Prism entry uses a direct attack-pressure identity supported by generated cards from other character pools, with boss and ancient-event interactions.
 
 ## Stable Dependencies
 
@@ -108,9 +108,10 @@ INSTALLATION.txt
 ## Current Prism Design Notes
 
 - Prism is a straightforward, aggressive playable boss character.
-- Random card casting and gambling effects are a major mechanic.
+- The core identity is persistent attack pressure backed by generated cards from other character pools.
+- Random card use should generally create playable options in hand, not replace player decisions with autoplay chains.
 - The card reward pool uses Ironclad as the base plus Prism cards.
-- `PrismaticShard` adds Prism cards to rewards and can apply random stable enchantments.
+- `PrismaticShard` adds Prism cards to rewards and discounts generated other-character cards by 1 for the turn they are created.
 - Some ancient/boss interactions are custom patched for Prism.
 - Use `design/08_sts2_balance_benchmarks.md` as the baseline when rebalancing Prism against the base STS2 characters.
 
