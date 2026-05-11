@@ -169,18 +169,18 @@ func _redraw(force_noise: bool) -> void:
 	_redraw_impact(normal)
 
 func _redraw_charge(normal: Vector2) -> void:
-	var gather := clamp(_time / max(charge_duration, 0.01), 0.0, 1.0)
-	var pulse := 1.0 + sin(_time * 38.0) * 0.12
-	var glow_radius := lerp(28.0, 92.0, gather) * pulse * _power
-	var core_radius := lerp(10.0, 34.0, gather) * (1.0 + sin(_time * 57.0) * 0.08) * _power
+	var gather: float = clamp(_time / max(charge_duration, 0.01), 0.0, 1.0)
+	var pulse: float = 1.0 + sin(_time * 38.0) * 0.12
+	var glow_radius: float = lerp(28.0, 92.0, gather) * pulse * _power
+	var core_radius: float = lerp(10.0, 34.0, gather) * (1.0 + sin(_time * 57.0) * 0.08) * _power
 	_draw_ring(_charge_glow, _from, glow_radius, 22, _charge_fade * (0.72 + gather * 0.22), 0.22)
 	_draw_ring(_charge_core, _from, core_radius, 16, _charge_fade, 0.10)
 
 func _draw_ring(line: Line2D, center: Vector2, radius: float, count: int, alpha: float, raggedness: float) -> void:
 	line.clear_points()
 	for i in count:
-		var angle := TAU * float(i) / float(count)
-		var ragged := 1.0 + sin(angle * 5.0 + _time * 24.0) * raggedness
+		var angle: float = TAU * float(i) / float(count)
+		var ragged: float = 1.0 + sin(angle * 5.0 + _time * 24.0) * raggedness
 		line.add_point(center + Vector2(cos(angle), sin(angle)) * radius * ragged)
 	var color := line.default_color
 	color.a = clamp(alpha, 0.0, 1.0)
