@@ -21,12 +21,13 @@ public sealed class PrismBeam : PrismCard
         }
 
         decimal damage = base.DynamicVars.Damage.BaseValue * DamageMultiplier();
+        PrismMegaBeamVfx.Play(base.Owner.Creature, combatState, ResolveBeamPowerScale());
 
         await DamageCmd.Attack(damage)
             .FromCard(this)
             .TargetingAllOpponents(combatState)
-            .WithAttackerAnim("Attack", base.Owner.Character.AttackAnimDelay, base.Owner.Creature)
-            .WithHitFx("vfx/vfx_starry_impact")
+            .WithAttackerAnim("Cast", 0.5f, base.Owner.Creature)
+            .BeforeDamage(async () => await Cmd.Wait(0.18f))
             .Execute(ctx);
     }
 
@@ -46,6 +47,12 @@ public sealed class PrismBeam : PrismCard
         }
 
         return multiplier;
+    }
+
+    private float ResolveBeamPowerScale()
+    {
+        int beamCount = CardsWherever().Count(card => card is PrismBeam);
+        return System.Math.Min(2.2f, 1f + System.Math.Max(0, beamCount - 1) * 0.22f);
     }
 
     private IEnumerable<CardModel> CardsWherever()

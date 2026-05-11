@@ -123,6 +123,7 @@ public class PrismCharacter : ModCharacterTemplate<IroncladCardPool, PrismRelicP
         StartingDeckEntry.Of<Guard>(6),
         StartingDeckEntry.Of<PrismWhirlwind>(1),
         StartingDeckEntry.Of<RadiantGamble>(1),
+        StartingDeckEntry.Of<PrismBeam>(1),
     ];
 
     protected override IEnumerable<Type> StartingRelicTypes =>
