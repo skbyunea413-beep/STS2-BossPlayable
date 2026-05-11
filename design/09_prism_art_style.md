@@ -2,7 +2,9 @@
 
 This guide defines the visual direction for Prism card portraits. The goal is to keep newly generated or commissioned art consistent with the Slay the Spire 2-inspired, hand-painted vector look already used by the mod.
 
-The character identity is not generic prism magic. Prism art should feel like it belongs to the red triangular Prism creature shown in the existing portraits: a rough red triangular core, a black central hollow eye with a small yellow glow, floating blue cone shards or drill horns, thick black shadow shapes, and bold magenta/yellow action streaks.
+The character identity is not generic prism magic. Prism art should usually feel connected to the red triangular Prism creature shown in the existing portraits: a rough red triangular core, a black central hollow eye with a small yellow glow, floating blue cone shards or drill horns, thick black shadow shapes, and bold magenta/yellow action streaks.
+
+However, Prism card art should not be formulaic. Like base Slay the Spire card art, a card can show a monster, a borrowed-job figure, a prop, a room, a spell shape, an abstract emblem, or the result of an action instead of the Prism creature itself. The rule is that the image must sell the card's mechanic and mood, not that Prism must appear in every frame.
 
 ## Core Style
 
@@ -14,9 +16,10 @@ The character identity is not generic prism magic. Prism art should feel like it
 - High-contrast dark backgrounds or hot red/orange backgrounds with bold action shapes.
 - Thick black shadow cuts, heavy dark outlines, and strong pink/magenta rim light.
 - More vector-like than painterly: large flat color regions, clean shape boundaries, controlled gradients, and minimal texture noise.
-- Restrict each card to a small palette. Prefer 5 to 7 total colors plus black shadow, not full concept-art color variation.
+- Restrict each card to a focused palette, but vary that palette between cards. Prefer 5 to 8 total colors plus black shadow, not full concept-art color variation.
 - Use 2 or 3 value steps per material. Avoid many tiny highlights, hue shifts, and polished rendering passes.
 - Vary composition aggressively between cards. Do not default to Prism centered with orbiting shards.
+- In a batch, avoid repeating the same dominant hue family, camera distance, subject type, or composition family.
 - No text, card frames, UI, watermarks, logos, or modern objects.
 
 ## Character Motifs
@@ -26,7 +29,8 @@ The character identity is not generic prism magic. Prism art should feel like it
 - No mouth. Prism's expression comes only from the eye, body tilt, tears, and surrounding motion.
 - Floating blue cone shards, blue drill horns, or faceted blue crystals.
 - Yellow rings, yellow impact bursts, and magenta/purple speed slashes.
-- The Prism creature itself should appear in most card art, either as the main subject or as an unmistakable fragment.
+- The Prism creature can appear as the main subject, a small cameo, a reflected shape, or not at all when another subject better communicates the card.
+- Monsters, borrowed-job figures, masks, hands, weapons, doors, rocks, cards, gears, plants, and abstract spell shapes are all valid card subjects.
 - Hands or bodies can appear, but they should be Prism-like or belong to the card subject. Avoid generic armored hands.
 - Backgrounds use simple graphic shapes, speed lines, faint circles, or broad shadow silhouettes.
 - Motion is shown through sharp angular streaks, not soft particles or noisy brush strokes.
@@ -36,14 +40,12 @@ The character identity is not generic prism magic. Prism art should feel like it
 
 ## Palette
 
-Default limited palette:
+Default Prism palette:
 - Shadow/outline: near-black purple.
 - Prism body dark: dark maroon.
 - Prism body light: flat crimson red.
 - Shards/drills: cobalt blue.
 - Eye/impact: saturated yellow.
-- Background: deep violet or red-orange, pick one dominant background color.
-- Optional accent: magenta rim light. Use sparingly.
 
 Allowed support colors, choose up to 3 per image:
 - Pale stone gray for rocks, teeth-like props, or neutral debris.
@@ -52,8 +54,11 @@ Allowed support colors, choose up to 3 per image:
 - Acid green for strange borrowed effects, poison-like scenes, or comic grossness.
 - White for hard silhouette cuts, doorways, sparks, or graphic negative space.
 - Muted tan/gold for borrowed class objects, masks, tools, or props.
+- Leaf green for monsters, plants, poison-like scenes, or borrowed class subjects.
+- Teal for glass, water, spectral effects, or mask-like figures.
+- Bone cream for harsh light, doors, teeth-like props, or negative space.
 
-Do not use all possible Prism colors in one image. Choose one dominant background family and keep the rest as accents. A good card usually has the default Prism colors plus only 2 or 3 support colors.
+Do not use all possible Prism colors in one image. Each card should choose one dominant palette family and a small set of accents. Across a batch, deliberately rotate palette families: violet/magenta, red/orange, green/acid, blue/teal, tan/gold, black/white high contrast.
 
 ## Composition Families
 
@@ -69,6 +74,17 @@ Use different composition families across a card batch:
 - Negative-space cutout: strong white or black graphic shapes carve the scene.
 
 In a batch, avoid using the same camera distance, same centered subject, same background color, or same "orbiting shards around Prism" layout more than once.
+
+## Batch Planning
+
+Before generating a batch, assign each card:
+
+- Subject role: Prism, monster, borrowed-job figure, object, environment, abstract effect, or aftermath.
+- Composition family: one from the list above.
+- Dominant palette family: one of violet/magenta, red/orange, green/acid, blue/teal, tan/gold, black/white.
+- Camera distance: extreme close-up, close-up, mid-shot, distant silhouette, or abstract/no camera.
+
+No two cards in the same batch should share all four choices.
 
 ## Avoid
 
@@ -128,7 +144,7 @@ Subject: the Prism creature: rough red triangular body, black central hollow eye
 Style/medium: Slay the Spire 2-inspired hand-painted vector card illustration, chunky layered shapes, hard cel-shaded gradient planes, clean vector-like color regions, thick black shadow cuts, crisp silhouette, minimal texture
 Composition/framing: 4:3 landscape card portrait composition, close readable subject, dynamic diagonal action, strong silhouette, crop-safe inside a card art window, no card frame
 Lighting/mood: bold yellow energy, magenta rim light, blue shard highlights, dramatic arcade-like impact
-Color palette: limited Prism palette: near-black purple shadows, dark maroon, flat crimson red, cobalt blue, saturated yellow, one dominant background family; choose up to 3 support colors from pale stone gray, warm orange, cyan-blue, acid green, white, muted tan/gold, and magenta accent
+Color palette: focused card-specific palette, 5 to 8 total colors plus black shadow; rotate dominant palette families across the batch; choose accents from Prism red, cobalt blue, yellow, magenta, pale stone gray, warm orange, cyan-blue, acid green, white, muted tan/gold, leaf green, teal, or bone cream
 Materials/textures: rough carved red stone, faceted blue crystal drills, black hollow eye socket, graphic energy streaks
 Constraints: no text, no UI, no frame, no watermark, no logo, readable at small size
 Avoid: photorealism, anime, 3D render, heavy brush texture, noisy background, modern sci-fi objects, generic glass prism, generic human hand, elegant thin crystal shards, mouth, teeth, lips, tongue, nose, square composition, over-rendered detail, rich palette, glossy rendering, many highlights
