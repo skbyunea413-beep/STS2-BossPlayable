@@ -2,7 +2,7 @@ namespace PrismMod;
 
 public sealed class FieldProcurement : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/hiddencard.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/fieldprocurement.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
 

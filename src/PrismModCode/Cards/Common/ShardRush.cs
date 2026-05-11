@@ -2,7 +2,7 @@ namespace PrismMod;
 
 public sealed class ShardRush : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/prismwhirlwind.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/shardrush.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

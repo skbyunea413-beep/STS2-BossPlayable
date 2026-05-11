@@ -2,7 +2,7 @@ namespace PrismMod;
 
 public sealed class SparkOfIntent : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/prismwhirlwind.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/sparkofintent.png";
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [PrismCardKeywords.AttackIntent];
 
