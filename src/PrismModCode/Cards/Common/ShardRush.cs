@@ -1,16 +1,16 @@
 namespace PrismMod;
 
-public sealed class BorrowedFangs : PrismCard
+public sealed class ShardRush : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/ghostngoblins.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/prismwhirlwind.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(7m, ValueProp.Move),
-        new RepeatVar(2),
+        new DamageVar(8m, ValueProp.Move),
+        new CardsVar(1),
     ];
 
-    public BorrowedFangs() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+    public ShardRush() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
@@ -18,9 +18,9 @@ public sealed class BorrowedFangs : PrismCard
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitCount(base.DynamicVars.Repeat.IntValue)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(ctx);
+
         await PrismRandomCardHelper.AddRandomCardToHand(
             ctx,
             base.Owner,
@@ -29,5 +29,5 @@ public sealed class BorrowedFangs : PrismCard
                 && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
     }
 
-    protected override void OnUpgrade() => base.DynamicVars.Damage.UpgradeValueBy(2m);
+    protected override void OnUpgrade() => base.DynamicVars.Damage.UpgradeValueBy(3m);
 }

@@ -1,12 +1,12 @@
 namespace PrismMod;
 
-public sealed class CommonRummage : PrismCard
+public sealed class BorrowedMoment : PrismCard
 {
     public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/hiddencard.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
 
-    public CommonRummage() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+    public BorrowedMoment() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
@@ -15,7 +15,8 @@ public sealed class CommonRummage : PrismCard
             await PrismRandomCardHelper.AddRandomCardToHand(
                 ctx,
                 base.Owner,
-                card => card.Rarity == CardRarity.Common && PrismRandomCardHelper.IsOtherCharacterCard(card));
+                card => PrismRandomCardHelper.IsOtherCharacterCard(card)
+                    && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
         }
     }
 

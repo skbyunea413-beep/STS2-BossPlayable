@@ -20,7 +20,8 @@ internal static class PrismRandomCardHelper
     private static bool IsRecursiveRandomCard(CardModel card)
     {
         return card is PrismWhirlwind or AncientPrismWhirlwind or RadiantGamble or HiddenCard or ArchmagesRune
-            or MixedSignals or BorrowedFangs or PeakOfFolly or FieldProcurement;
+            or MixedSignals or BorrowedFangs or PeakOfFolly or FieldProcurement
+            or ShardRush or PrismaticCover or BorrowedMoment;
     }
 
     internal static bool IsOtherCharacterCard(CardModel card)

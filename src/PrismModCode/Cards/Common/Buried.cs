@@ -17,7 +17,11 @@ public sealed class Buried : PrismCard
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
         for (int i = 0; i < base.DynamicVars.Cards.IntValue; i++)
         {
-            await PrismRandomCardHelper.AddRandomCardToHand(ctx, base.Owner);
+            await PrismRandomCardHelper.AddRandomCardToHand(
+                ctx,
+                base.Owner,
+                card => PrismRandomCardHelper.IsOtherCharacterCard(card)
+                    && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
         }
     }
 

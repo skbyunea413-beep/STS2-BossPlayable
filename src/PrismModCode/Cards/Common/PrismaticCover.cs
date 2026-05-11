@@ -1,12 +1,16 @@
 namespace PrismMod;
 
-public sealed class MixedSignals : PrismCard
+public sealed class PrismaticCover : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/radiantgamble.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/guard.png";
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(10m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new BlockVar(7m, ValueProp.Move),
+        new CardsVar(1),
+    ];
 
-    public MixedSignals() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self) { }
+    public PrismaticCover() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
@@ -19,5 +23,5 @@ public sealed class MixedSignals : PrismCard
                 && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
     }
 
-    protected override void OnUpgrade() => base.DynamicVars.Block.UpgradeValueBy(4m);
+    protected override void OnUpgrade() => base.DynamicVars.Block.UpgradeValueBy(3m);
 }
