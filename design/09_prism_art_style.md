@@ -16,6 +16,7 @@ The character identity is not generic prism magic. Prism art should feel like it
 - More vector-like than painterly: large flat color regions, clean shape boundaries, controlled gradients, and minimal texture noise.
 - Restrict each card to a small palette. Prefer 5 to 7 total colors plus black shadow, not full concept-art color variation.
 - Use 2 or 3 value steps per material. Avoid many tiny highlights, hue shifts, and polished rendering passes.
+- Vary composition aggressively between cards. Do not default to Prism centered with orbiting shards.
 - No text, card frames, UI, watermarks, logos, or modern objects.
 
 ## Character Motifs
@@ -31,6 +32,7 @@ The character identity is not generic prism magic. Prism art should feel like it
 - Motion is shown through sharp angular streaks, not soft particles or noisy brush strokes.
 - The mood should be slightly grotesque but funny: one-eyed, weirdly expressive, charmingly ugly, awkward, and mischievous rather than elegant.
 - Push the "kimo-kawaii" feeling when appropriate: gross-cute tears, goofy panic, odd proportions, and comic discomfort.
+- Prism does not need to appear full-body in every portrait. It can appear as a red triangular eye close-up, a tiny silhouette, a reflected shape, a shard-cameo, or the implied source of the action.
 
 ## Palette
 
@@ -47,8 +49,26 @@ Allowed support colors, choose up to 3 per image:
 - Pale stone gray for rocks, teeth-like props, or neutral debris.
 - Warm orange for impact bursts, body highlights, or hot backgrounds.
 - Cyan-blue for small shard highlights or tear drops.
+- Acid green for strange borrowed effects, poison-like scenes, or comic grossness.
+- White for hard silhouette cuts, doorways, sparks, or graphic negative space.
+- Muted tan/gold for borrowed class objects, masks, tools, or props.
 
 Do not use all possible Prism colors in one image. Choose one dominant background family and keep the rest as accents. A good card usually has the default Prism colors plus only 2 or 3 support colors.
+
+## Composition Families
+
+Use different composition families across a card batch:
+
+- Abstract emblem: pure graphic starburst, spiral, or sigil with Prism colors.
+- Distant silhouette: a small figure or Prism shape framed by a large doorway, beam, or shadow.
+- Close-up object: one prop, shard, eye, or hand-like form dominates the frame.
+- Character interaction: Prism reacting to another job's object, card, mask, tool, or attack.
+- Environmental gag: Prism trapped under rocks, peeking from a pile, or causing a messy scene.
+- Action slash: diagonal motion, impact, beam, drill, or burst crossing the whole card.
+- Swarm/object pattern: many simple repeated objects, such as cards, gears, shards, stones, or eyes.
+- Negative-space cutout: strong white or black graphic shapes carve the scene.
+
+In a batch, avoid using the same camera distance, same centered subject, same background color, or same "orbiting shards around Prism" layout more than once.
 
 ## Avoid
 
@@ -108,7 +128,7 @@ Subject: the Prism creature: rough red triangular body, black central hollow eye
 Style/medium: Slay the Spire 2-inspired hand-painted vector card illustration, chunky layered shapes, hard cel-shaded gradient planes, clean vector-like color regions, thick black shadow cuts, crisp silhouette, minimal texture
 Composition/framing: 4:3 landscape card portrait composition, close readable subject, dynamic diagonal action, strong silhouette, crop-safe inside a card art window, no card frame
 Lighting/mood: bold yellow energy, magenta rim light, blue shard highlights, dramatic arcade-like impact
-Color palette: limited Prism palette: near-black purple shadows, dark maroon, flat crimson red, cobalt blue, saturated yellow, one dominant deep violet or red-orange background; choose up to 3 support colors from pale stone gray, warm orange, cyan-blue, and magenta accent
+Color palette: limited Prism palette: near-black purple shadows, dark maroon, flat crimson red, cobalt blue, saturated yellow, one dominant background family; choose up to 3 support colors from pale stone gray, warm orange, cyan-blue, acid green, white, muted tan/gold, and magenta accent
 Materials/textures: rough carved red stone, faceted blue crystal drills, black hollow eye socket, graphic energy streaks
 Constraints: no text, no UI, no frame, no watermark, no logo, readable at small size
 Avoid: photorealism, anime, 3D render, heavy brush texture, noisy background, modern sci-fi objects, generic glass prism, generic human hand, elegant thin crystal shards, mouth, teeth, lips, tongue, nose, square composition, over-rendered detail, rich palette, glossy rendering, many highlights
