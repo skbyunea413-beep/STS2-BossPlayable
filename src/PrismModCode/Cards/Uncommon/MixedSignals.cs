@@ -2,7 +2,7 @@ namespace PrismMod;
 
 public sealed class MixedSignals : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/radiantgamble.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/mixedsignals.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(10m, ValueProp.Move)];
 

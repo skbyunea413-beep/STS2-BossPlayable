@@ -3,7 +3,7 @@ namespace PrismMod;
 public sealed class PrismBeam : PrismCard
 {
     public override string? CustomPortraitPath =>
-        $"{MainFile.ResPath}/images/card_portraits/prismwhirlwind.png";
+        $"{MainFile.ResPath}/images/card_portraits/prismbeam.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

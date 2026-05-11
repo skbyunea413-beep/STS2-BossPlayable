@@ -2,7 +2,7 @@ namespace PrismMod;
 
 public sealed class BorrowedFangs : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/ghostngoblins.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/borrowedfangs.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

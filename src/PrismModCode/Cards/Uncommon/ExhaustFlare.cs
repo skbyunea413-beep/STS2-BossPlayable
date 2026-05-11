@@ -2,7 +2,7 @@ namespace PrismMod;
 
 public sealed class ExhaustFlare : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/radiate.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/exhaustflare.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5m, ValueProp.Move)];
 

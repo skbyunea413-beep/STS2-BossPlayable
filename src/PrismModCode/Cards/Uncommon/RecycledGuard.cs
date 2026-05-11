@@ -2,7 +2,7 @@ namespace PrismMod;
 
 public sealed class RecycledGuard : PrismCard
 {
-    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/buried.png";
+    public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/recycledguard.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
