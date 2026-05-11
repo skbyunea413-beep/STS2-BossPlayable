@@ -46,6 +46,7 @@ public class MainFile
             .Card<PrismCardPool, RadiantGamble>()
             .Card<PrismCardPool, Buried>()
             .Card<PrismCardPool, PrismBeam>()
+            .Card<PrismCardPool, FieldProcurement>()
             .Card<PrismCardPool, BorrowedFangs>()
             .Card<PrismCardPool, CommonRummage>()
             .Card<PrismCardPool, PeakOfFolly>()

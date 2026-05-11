@@ -20,7 +20,28 @@ internal static class PrismRandomCardHelper
     private static bool IsRecursiveRandomCard(CardModel card)
     {
         return card is PrismWhirlwind or AncientPrismWhirlwind or RadiantGamble or HiddenCard or ArchmagesRune
-            or MixedSignals or BorrowedFangs or PeakOfFolly;
+            or MixedSignals or BorrowedFangs or PeakOfFolly or FieldProcurement;
+    }
+
+    internal static bool IsOtherCharacterCard(CardModel card)
+    {
+        return ModelDb.AllCharacterCardPools.Contains(card.Pool);
+    }
+
+    internal static bool IsPlayableThisTurnAfterShard(Player player, CardModel card)
+    {
+        if (card.EnergyCost.CostsX)
+        {
+            return false;
+        }
+
+        int cost = card.EnergyCost.GetWithModifiers(CostModifiers.All);
+        if (player.Relics.OfType<PrismaticShard>().Any() && IsOtherCharacterCard(card))
+        {
+            cost = System.Math.Max(0, cost - 1);
+        }
+
+        return cost <= player.GetEnergy();
     }
 
     internal static CardModel? CreateRandomCard(Player player, Func<CardModel, bool>? filter = null)

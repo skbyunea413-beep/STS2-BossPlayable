@@ -13,6 +13,8 @@
     "PRISM_MOD_CARD_BURIED.description":  "방어도를 {Block:diff} 얻습니다. 무작위 카드를 {Cards:diff}장 가져옵니다.",
     "PRISM_MOD_CARD_PRISM_BEAM.title":  "프리즘 광선",
     "PRISM_MOD_CARD_PRISM_BEAM.description":  "모든 적에게 피해를 {Damage:diff} 줍니다. 다른 프리즘 광선 하나당 2배가 됩니다.",
+    "PRISM_MOD_CARD_FIELD_PROCUREMENT.title":  "현장 조달",
+    "PRISM_MOD_CARD_FIELD_PROCUREMENT.description":  "다른 직업의 지금 낼 수 있는 무작위 카드를 {Cards:diff}장 가져옵니다.",
     "PRISM_MOD_CARD_BORROWED_FANGS.title":  "빌린 송곳니",
     "PRISM_MOD_CARD_BORROWED_FANGS.description":  "{Damage:diff}x{Repeat} 피해를 줍니다. 무작위 공격 카드를 시전합니다.",
     "PRISM_MOD_CARD_COMMON_RUMMAGE.title":  "흔한 뒤적임",
