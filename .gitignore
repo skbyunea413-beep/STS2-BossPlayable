@@ -15,6 +15,7 @@ src/.build_mods/
 .tmp_mods/
 tmp_mods_verify/
 dist_publish/
+dist_publish_compressed/
 
 # IDE/editor files
 .vs/
