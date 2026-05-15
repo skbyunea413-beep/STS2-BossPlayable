@@ -14,6 +14,7 @@ src/.build_mods/
 .godot/
 .tmp_mods/
 tmp_mods_verify/
+dist_publish/
 
 # IDE/editor files
 .vs/
