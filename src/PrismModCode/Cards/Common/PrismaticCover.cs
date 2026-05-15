@@ -6,8 +6,7 @@ public sealed class PrismaticCover : PrismCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(7m, ValueProp.Move),
-        new CardsVar(1),
+        new BlockVar(9m, ValueProp.Move),
     ];
 
     public PrismaticCover() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
@@ -15,12 +14,13 @@ public sealed class PrismaticCover : PrismCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-        await PrismRandomCardHelper.AddRandomCardToHand(
-            ctx,
-            base.Owner,
-            card => card.Type == CardType.Skill
-                && PrismRandomCardHelper.IsOtherCharacterCard(card)
-                && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
+        foreach (var card in PileType.Hand.GetPile(base.Owner).Cards.Where(PrismRandomCardHelper.IsOtherCharacterCard))
+        {
+            if (!card.EnergyCost.CostsX)
+            {
+                card.EnergyCost.AddThisTurn(-1, reduceOnly: true);
+            }
+        }
     }
 
     protected override void OnUpgrade() => base.DynamicVars.Block.UpgradeValueBy(3m);

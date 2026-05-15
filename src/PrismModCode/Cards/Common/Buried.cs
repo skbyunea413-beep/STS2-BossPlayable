@@ -1,13 +1,19 @@
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using MegaCrit.Sts2.Core.Models.Cards;
+
 namespace PrismMod;
 
 public sealed class Buried : PrismCard
 {
     public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/buried.png";
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<GiantRock>(base.IsUpgraded)];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(6m, ValueProp.Move),
-        new CardsVar(1),
+        new BlockVar(13m, ValueProp.Move),
+        new DynamicVar("Rocks", 2m),
     ];
 
     public Buried() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
@@ -15,19 +21,25 @@ public sealed class Buried : PrismCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-        for (int i = 0; i < base.DynamicVars.Cards.IntValue; i++)
+        if (base.CombatState == null)
         {
-            await PrismRandomCardHelper.AddRandomCardToHand(
-                ctx,
-                base.Owner,
-                card => PrismRandomCardHelper.IsOtherCharacterCard(card)
-                    && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
+            return;
         }
+
+        List<CardModel> rocks = [];
+        for (int i = 0; i < base.DynamicVars["Rocks"].IntValue; i++)
+        {
+            var rock = base.CombatState.CreateCard<GiantRock>(base.Owner);
+            if (base.IsUpgraded)
+            {
+                CardCmd.Upgrade(rock, CardPreviewStyle.None);
+            }
+
+            rocks.Add(rock);
+        }
+
+        await CardPileCmd.AddGeneratedCardsToCombat(rocks, PileType.Draw, base.Owner, CardPilePosition.Random);
     }
 
-    protected override void OnUpgrade()
-    {
-        base.DynamicVars.Block.UpgradeValueBy(3m);
-        base.DynamicVars.Cards.UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() => base.DynamicVars.Block.UpgradeValueBy(3m);
 }

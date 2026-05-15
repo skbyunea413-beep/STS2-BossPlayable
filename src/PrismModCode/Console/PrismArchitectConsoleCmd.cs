@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.TextEffects;
 
 namespace PrismMod;
 
@@ -50,5 +51,33 @@ public sealed class PrismOrobasConsoleCmd : AbstractConsoleCmd
         issuingPlayer.RunState.AppendToMapPointHistory(MapPointType.Ancient, RoomType.Event, orobas.Id);
         Task task = RunManager.Instance.EnterRoom(new EventRoom(orobas));
         return new CmdResult(task, success: true, "Jumped to Orobas.");
+    }
+}
+
+public sealed class PrismUpgradePreviewDebugConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "prism_upgrade_debug";
+
+    public override string Args => "";
+
+    public override string Description => "Prints Prism upgrade preview text diagnostics.";
+
+    public override bool IsNetworked => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        var card = ModelDb.Card<Reinforce>().ToMutable();
+        card.UpgradeInternal();
+        string description = card.GetDescriptionForUpgradePreview();
+        string manual = StsTextUtilities.HighlightChangeText(
+            card.DynamicVars.Damage.IntValue.ToString(),
+            card.DynamicVars.Damage.WasJustUpgraded ? 1 : 0);
+
+        string message =
+            $"Reinforce Damage={card.DynamicVars.Damage.IntValue}, " +
+            $"WasJustUpgraded={card.DynamicVars.Damage.WasJustUpgraded}, " +
+            $"Manual={manual}, Description={description}";
+
+        return new CmdResult(success: true, message);
     }
 }

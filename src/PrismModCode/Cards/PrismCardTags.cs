@@ -12,4 +12,12 @@ public static class PrismCardKeywords
     [CustomEnum("ATTACK_INTENT")]
     [KeywordProperties(AutoKeywordPosition.After)]
     public static CardKeyword AttackIntent;
+
+    [CustomEnum("BATTLE_START")]
+    [KeywordProperties(AutoKeywordPosition.After)]
+    public static CardKeyword BattleStart;
+
+    [CustomEnum("TWO_CHARACTERS")]
+    [KeywordProperties(AutoKeywordPosition.After)]
+    public static CardKeyword TwoCharacters;
 }

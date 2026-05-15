@@ -5,14 +5,13 @@ using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Helpers;
-using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using STS2RitsuLib.Scaffolding.Characters.Visuals.Definition;
 
 namespace PrismMod;
 
-public class PrismCharacter : ModCharacterTemplate<IroncladCardPool, PrismRelicPool, PrismPotionPool>
+public class PrismCharacter : ModCharacterTemplate<PrismCardPool, PrismRelicPool, PrismPotionPool>
 {
     public const string CharacterId = "PrismMod";
     public static readonly Color CharColor = new Color("#7e57ff");
@@ -119,18 +118,15 @@ public class PrismCharacter : ModCharacterTemplate<IroncladCardPool, PrismRelicP
 
     protected override IEnumerable<StartingDeckEntry> StartingDeckEntries =>
     [
-        StartingDeckEntry.Of<Reinforce>(6),
-        StartingDeckEntry.Of<Guard>(6),
-        StartingDeckEntry.Of<PrismWhirlwind>(1),
+        StartingDeckEntry.Of<Reinforce>(4),
+        StartingDeckEntry.Of<Guard>(4),
         StartingDeckEntry.Of<RadiantGamble>(1),
-        StartingDeckEntry.Of<PrismBeam>(1),
+        StartingDeckEntry.Of<PrismWhirlwind>(1),
     ];
 
     protected override IEnumerable<Type> StartingRelicTypes =>
     [
         typeof(PrismaticShard),
-        typeof(DingyRug),
-        typeof(PrismaticGem),
     ];
 
     public override List<string> GetArchitectAttackVfx() =>

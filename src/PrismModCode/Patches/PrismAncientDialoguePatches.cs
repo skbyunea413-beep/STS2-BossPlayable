@@ -210,30 +210,6 @@ internal static class PrismAncientDialogueLayoutPatch
     }
 }
 
-[HarmonyPatch(typeof(Neow), "GenerateInitialOptions")]
-internal static class PrismNeowOptionsPatch
-{
-    [HarmonyPrefix]
-    private static bool SkipNeowRewardsForPrism(Neow __instance, ref IReadOnlyList<EventOption> __result)
-    {
-        if (__instance.Owner?.Character is not PrismCharacter)
-        {
-            return true;
-        }
-
-        __result =
-        [
-            new EventOption(
-                __instance,
-                NEventRoom.Proceed,
-                "NEOW.pages.INITIAL.options.PRISM_SILENCE",
-                disableOnChosen: false,
-                isProceed: true).ThatWontSaveToChoiceHistory()
-        ];
-        return false;
-    }
-}
-
 [HarmonyPatch(typeof(Orobas), "DefineDialogues")]
 internal static class PrismOrobasDialoguePatch
 {

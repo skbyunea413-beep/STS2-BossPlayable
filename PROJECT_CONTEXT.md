@@ -112,10 +112,74 @@ INSTALLATION.txt
 - Generated cards should usually gain Exhaust so they create one-turn decisions and feed Exhaust-pile synergies instead of becoming permanent value loops.
 - Random card use should generally create playable options in hand, not replace player decisions with autoplay chains.
 - Keep card text concise: do not repeat Attack Intent timing or PrismaticShard generated-card rules on every card.
+- Card descriptions use `[gold]...[/gold]` for important referenced terms such as Attack Intent, other-character cards, and Exhaust pile. Prefer short visible terms plus hover tips for long explanations.
 - The card reward pool uses Ironclad as the base plus Prism cards.
 - `PrismaticShard` adds Prism cards to rewards, gives generated cards Exhaust, and discounts generated other-character cards by 1 for the turn they are created.
+- The meaning of "other-character card" is centralized in `PrismRandomCardHelper`. Cards that add other-character cards should use `AddPlayableOtherCharacterCardToHand` so attack/skill/common subfilters are applied inside the playable other-character pool rather than rebuilding that pool locally.
+- The other-character helper is intentionally broad but excludes cards that are poor or unsafe when randomly generated: multiplayer-only cards, all Powers except `Stone Armor`, Necrobinder `OstyAttack` cards, Necrobinder `Sacrifice`, Defect Focus-only cards such as `Focused Strike`, `Hotfix`, and `Synchronize`, Defect Evoke cards except `Shatter`, `Grand Finale`, `Knife Trap`, and future-only/low-immediate-value cards such as `Hidden Cache`, `Convergence`, `Outmaneuver`, `Invoke`, `Scavenge`, and `Prolong`.
 - Some ancient/boss interactions are custom patched for Prism.
 - Use `design/08_sts2_balance_benchmarks.md` as the baseline when rebalancing Prism against the base STS2 characters.
+
+## Current Prism Card Map
+
+This map describes the implemented card pool as of the current source state. Use the C# files under `src/PrismModCode/Cards/` as the source of truth.
+
+Core mechanical axes:
+
+- Other-character card generation is intentionally split by role now:
+  - `Field Procurement`: baseline random playable other-character card.
+  - `Secret Procurement`: choose 1 of 3 playable other-character cards, plus small Block.
+  - `Borrowed Moment`: 0-cost playable other-character card generation that gives the generated card Retain.
+  - `Shard Rush`: attack tempo; deals damage, adds a playable other-character Attack, and makes it cost 0 this turn.
+  - `Borrowed Fangs`: higher-damage multi-hit attack that adds a playable other-character Attack without the free-this-turn tempo rider.
+  - `Mixed Signals`: adds any playable other-character card, then gives a different payoff based on the generated card type.
+  - `Common Rummage`, `Peak of Folly`, and `GentAndFect`: narrower generator packages with rarity or resource riders.
+  - `Buried` and `Prismatic Cover` were moved away from direct generation to reduce duplicate generator roles.
+- Exhaust-pile and autoplay swings: `Hidden Card`, `Archmage's Rune`, `Prism Discharge`, `Shard Salvage`, `Rift Storage`, `Pulsate`.
+- Ironclad/Silent basic-card generation: `Radiant Gamble` adds a basic card from the `Two Characters` keyword. The keyword hover explains that this means Ironclad and Silent. The implementation excludes Strike/Defend-tagged cards.
+- 2-cost-or-more payoffs: `Big Shard`, `Scattered Strike`, `Light Shard Shield`, `Heavy Refraction`, `Overcharged Lens`, `Lens Runaway`.
+- Attack Intent package: `Spark of Intent`, `Sharp Afterimage`, `Forced Flare`, `Infinite Coil`, plus payoffs/modifiers from `Mirror Screen`, `Prismatic Brand`, `Delayed Amplification`, `Lens Runaway`.
+- Card-generation/exhaust trigger powers: `Kaleidoscope Heart`, `Shard Furnace`, `External Refraction`, `Borrowed Orbit`.
+- Prism Beam package: `Prism Beam` deals high all-enemy damage and doubles for each other `Prism Beam` the player has.
+
+Important current card notes:
+
+- `Reinforce` and `Guard` are temporary basic cards and should be reduced toward decompiled base-character starter benchmarks.
+- `Prism Whirlwind` has been reworked away from random autoplay and card generation. Current behavior: immediately attack one target for 5x3, then create Attack Intent that applies 1 Weak to that target next turn.
+- `Buried` is now an Exhaust-pile defensive common: Block, plus more Block if the Exhaust pile has any card.
+- `Prismatic Cover` is now a hand support defensive common: Block, then reduce other-character cards already in hand by 1 this turn.
+- `AttackIntentPower` resolves as a single hit. Do not reuse Prism Whirlwind's `Repeat=3` for Attack Intent execution unless intentionally rebalancing it as multi-hit.
+- `Radiant Gamble` was reworked into a 0-cost starter card that adds one Ironclad/Silent basic non-Strike/non-Defend card to hand. If Radiant Gamble is upgraded, the generated basic card is upgraded. Do not put Exhaust on the starter card itself; generated cards already receive Exhaust from `PrismaticShard`, and generated other-character cards already cost 1 less that turn.
+- `Prism Beam` was removed from the starting deck because its 3-cost exponential all-enemy scaling belongs in rewards, not the opening deck.
+- `Prism Discharge` is rare. It plays X+bonus cards from the Exhaust pile and is too swingy for common rewards.
+- `Prism Beam` has exponential scaling through duplicate copies; treat it as a major balance risk.
+- `Dopamine`, `Hidden Card`, and `Archmage's Rune` are the biggest random/autoplay volatility risks.
+- Several card folders do not match runtime rarity. Trust `CardRarity` in constructors, not directory names.
+
+Current starting deck:
+
+```text
+Reinforce x4
+Guard x4
+Radiant Gamble x1
+Prism Whirlwind x1
+```
+
+Planned starting-deck direction:
+
+```text
+Keep testing Radiant Gamble's Ironclad/Silent basic-card pool and Prism Whirlwind's Attack Intent draw pacing before treating the starting deck as final.
+```
+
+Recent balance/UI notes:
+
+- Conditional bonus cards should override `ShouldGlowGoldInternal` when their bonus is active. This is now wired for 2-cost hand payoffs, generated-card payoffs, Exhaust-turn payoffs, Attack Intent payoffs, and Exhaust-pile followups.
+
+## Known Combat Issues
+
+- Attack Intent is implemented by `AttackIntentPower`.
+- All-enemy Attack Intent used to execute once per all-enemy power instance, causing the all-enemy damage command to fire repeatedly when multiple all-enemy intent instances existed.
+- Current intended behavior: at energy reset, all all-enemy Attack Intent instances are aggregated into one all-enemy hit sequence, then all aggregated instances are removed.
 
 Implemented convenience commands:
 

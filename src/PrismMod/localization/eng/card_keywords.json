@@ -1,4 +1,8 @@
 {
   "PRISMMOD-ATTACK_INTENT.title": "Attack Intent",
-  "PRISMMOD-ATTACK_INTENT.description": "This card's attack is executed at the start of your next turn."
+  "PRISMMOD-ATTACK_INTENT.description": "This card's attack is executed at the start of your next turn.",
+  "PRISMMOD-BATTLE_START.title": "Battle Start",
+  "PRISMMOD-BATTLE_START.description": "This card is played at the start of combat.",
+  "PRISMMOD-TWO_CHARACTERS.title": "Two Characters",
+  "PRISMMOD-TWO_CHARACTERS.description": "Ironclad and Silent."
 }

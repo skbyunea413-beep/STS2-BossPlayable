@@ -6,26 +6,26 @@ public sealed class GhostNGoblins : PrismCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new SummonVar(3m),
-        new ForgeVar(3),
+        new DamageVar(4m, ValueProp.Move),
+        new SummonVar(2m),
     ];
 
-    public GhostNGoblins() : base(2, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+    public GhostNGoblins() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        int repeats = PileType.Exhaust.GetPile(base.Owner).Cards.Count;
-        for (int i = 0; i < repeats; i++)
+        var power = await PowerCmd.Apply<GhostNGoblinsPower>(
+            ctx,
+            base.Owner.Creature,
+            1,
+            base.Owner.Creature,
+            this);
+        if (power != null)
         {
-            await OstyCmd.Summon(ctx, base.Owner, base.DynamicVars.Summon.BaseValue, this);
-            await ForgeCmd.Forge(base.DynamicVars.Forge.IntValue, base.Owner, this);
+            power.Damage = base.DynamicVars.Damage.BaseValue;
+            power.Summon = base.DynamicVars.Summon.BaseValue;
         }
     }
 
-    protected override void OnUpgrade()
-    {
-        base.DynamicVars.Summon.UpgradeValueBy(1m);
-        base.DynamicVars.Forge.UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() => base.EnergyCost.UpgradeBy(-1);
 }

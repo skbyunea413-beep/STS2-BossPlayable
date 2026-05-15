@@ -42,15 +42,15 @@ internal static class ArchaicToothSetupForPrismPatch
     {
         return starterCard switch
         {
-            RadiantGamble radiantGamble => CreateHiddenCard(radiantGamble),
+            RadiantGamble radiantGamble => CreateAncientRadiantGamble(radiantGamble),
             PrismWhirlwind whirlwind => CreateAncientWhirlwind(whirlwind),
             _ => starterCard.Owner.RunState.CreateCard<Doubt>(starterCard.Owner)
         };
     }
 
-    internal static HiddenCard CreateHiddenCard(RadiantGamble starterCard)
+    internal static AncientRadiantGamble CreateAncientRadiantGamble(RadiantGamble starterCard)
     {
-        var ancientCard = starterCard.Owner.RunState.CreateCard<HiddenCard>(starterCard.Owner);
+        var ancientCard = starterCard.Owner.RunState.CreateCard<AncientRadiantGamble>(starterCard.Owner);
         CopyStarterCardState(starterCard, ancientCard);
         return ancientCard;
     }

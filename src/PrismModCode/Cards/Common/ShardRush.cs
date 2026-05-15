@@ -6,7 +6,8 @@ public sealed class ShardRush : PrismCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(8m, ValueProp.Move),
+        new DamageVar(3m, ValueProp.Move),
+        new RepeatVar(3),
         new CardsVar(1),
     ];
 
@@ -18,16 +19,18 @@ public sealed class ShardRush : PrismCard
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
+            .WithHitCount(base.DynamicVars.Repeat.IntValue)
+            .WithAttackerAnim("AttackDouble", 0.2f, base.Owner.Creature)
+            .OnlyPlayAnimOnce()
+            .WithAttackerFx(null, PrismWhirlwind.SpinSfx)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(ctx);
 
-        await PrismRandomCardHelper.AddRandomCardToHand(
-            ctx,
-            base.Owner,
-            card => card.Type == CardType.Attack
-                && PrismRandomCardHelper.IsOtherCharacterCard(card)
-                && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
+        for (int i = 0; i < base.DynamicVars.Cards.IntValue; i++)
+        {
+            await PrismRandomCardHelper.AddOtherCharacterCardToHand(ctx, base.Owner);
+        }
     }
 
-    protected override void OnUpgrade() => base.DynamicVars.Damage.UpgradeValueBy(3m);
+    protected override void OnUpgrade() => base.DynamicVars.Damage.UpgradeValueBy(1m);
 }

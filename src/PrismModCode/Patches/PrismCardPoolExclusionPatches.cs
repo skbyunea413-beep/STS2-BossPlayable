@@ -43,6 +43,7 @@ internal static class NonPrismCardCreationPatch
     {
         if (player.Character is PrismCharacter)
         {
+            __result = __result.Where(card => card is not PrismWhirlwind and not RadiantGamble);
             return;
         }
 

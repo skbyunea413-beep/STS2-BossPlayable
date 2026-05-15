@@ -4,9 +4,11 @@ public sealed class RecycledGuard : PrismCard
 {
     public override string? CustomPortraitPath => $"{MainFile.ResPath}/images/card_portraits/recycledguard.png";
 
+    protected override bool ShouldGlowGoldInternal => CanRecycle;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(8m, ValueProp.Move),
+        new BlockVar(10m, ValueProp.Move),
         new CardsVar(1),
     ];
 
@@ -15,17 +17,25 @@ public sealed class RecycledGuard : PrismCard
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-        if (PileType.Exhaust.GetPile(base.Owner).Cards.Count == 0)
+        if (!CanRecycle)
         {
             return;
         }
 
-        await PrismRandomCardHelper.AddRandomCardToHand(
-            ctx,
-            base.Owner,
-            card => PrismRandomCardHelper.IsOtherCharacterCard(card)
-                && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
+        for (int i = 0; i < base.DynamicVars.Cards.IntValue; i++)
+        {
+            var card = base.Owner.RunState.Rng.CombatCardSelection.NextItem(
+                PrismRandomCardHelper.ReclaimableCardsInExhaust(base.Owner).ToList());
+            if (card == null)
+            {
+                return;
+            }
+
+            await CardPileCmd.Add(card, PileType.Hand);
+        }
     }
 
     protected override void OnUpgrade() => base.DynamicVars.Block.UpgradeValueBy(3m);
+
+    private bool CanRecycle => PrismRandomCardHelper.HasReclaimableCardInExhaust(base.Owner);
 }

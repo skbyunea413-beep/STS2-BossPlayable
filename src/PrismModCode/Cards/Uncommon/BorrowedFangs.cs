@@ -1,3 +1,5 @@
+using MegaCrit.Sts2.Core.HoverTips;
+
 namespace PrismMod;
 
 public sealed class BorrowedFangs : PrismCard
@@ -6,28 +8,41 @@ public sealed class BorrowedFangs : PrismCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(7m, ValueProp.Move),
-        new RepeatVar(2),
+        new DamageVar("IntentDamage", 5m, ValueProp.Move),
+        new RepeatVar(3),
+        new CardsVar(1),
     ];
 
-    public BorrowedFangs() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy) { }
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(PrismCardKeywords.AttackIntent),
+    ];
+
+    public BorrowedFangs() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        System.ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
-            .Targeting(cardPlay.Target)
-            .WithHitCount(base.DynamicVars.Repeat.IntValue)
-            .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(ctx);
-        await PrismRandomCardHelper.AddRandomCardToHand(
+        var intent = await PowerCmd.Apply<AttackIntentPower>(
             ctx,
-            base.Owner,
-            card => card.Type == CardType.Attack
-                && PrismRandomCardHelper.IsOtherCharacterCard(card)
-                && PrismRandomCardHelper.IsPlayableThisTurnAfterShard(base.Owner, card));
+            base.Owner.Creature,
+            base.DynamicVars["IntentDamage"].BaseValue,
+            base.Owner.Creature,
+            this);
+        if (intent != null)
+        {
+            intent.DynamicVars.Repeat.BaseValue = base.DynamicVars.Repeat.IntValue;
+            intent.SetTargetAllEnemies();
+        }
+
+        await WarningColorPower.TriggerForAttackIntent(ctx, base.Owner.Creature, null, true, this);
+        for (int i = 0; i < base.DynamicVars.Cards.IntValue; i++)
+        {
+            await PrismRandomCardHelper.AddOtherCharacterCardToHand(ctx, base.Owner);
+        }
     }
 
-    protected override void OnUpgrade() => base.DynamicVars.Damage.UpgradeValueBy(2m);
+    protected override void OnUpgrade()
+    {
+        base.DynamicVars.Repeat.UpgradeValueBy(1m);
+    }
 }

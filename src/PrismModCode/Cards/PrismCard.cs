@@ -10,6 +10,10 @@ public abstract class PrismCard(int cost, CardType type, CardRarity rarity, Targ
 
     public override CardPoolModel VisualCardPool => ModelDb.CardPool<PrismCardPool>();
 
+    protected override bool IsPlayable => base.IsPlayable && !IsBlockedByMissingRequiredPile;
+
+    internal virtual bool IsBlockedByMissingRequiredPile => false;
+
     public override Godot.Texture2D? CustomPortrait
     {
         get

@@ -3,19 +3,87 @@
   "PRISM_MOD_POWER_ATTACK_INTENT_POWER.description": "At the start of your next turn, deal {Amount} damage to all enemies {Repeat} times.",
   "PRISM_MOD_POWER_ATTACK_INTENT_POWER.smartDescription": "At the start of your next turn, deal {Amount} damage to all enemies {Repeat} times.",
 
-  "PRISM_MOD_POWER_PULSATE_POWER.title": "Pulsate",
-  "PRISM_MOD_POWER_PULSATE_POWER.description": "At the end of each turn, play {Amount} random card(s).",
-  "PRISM_MOD_POWER_PULSATE_POWER.smartDescription": "At the end of each turn, play {Amount} random card(s).",
+  "PRISM_MOD_POWER_ATTACK_INTENT_WEAK_POWER.title": "Attack Intent",
+  "PRISM_MOD_POWER_ATTACK_INTENT_WEAK_POWER.description": "At the start of your next turn, apply {Amount} Weak.",
+  "PRISM_MOD_POWER_ATTACK_INTENT_WEAK_POWER.smartDescription": "At the start of your next turn, apply {Amount} Weak.",
+
+  "PRISM_MOD_POWER_LITERALLY_FEMALE_INTENT_POWER.title": "Attack Intent",
+  "PRISM_MOD_POWER_LITERALLY_FEMALE_INTENT_POWER.description": "At the start of your next turn, deal damage to random enemies several times.",
+  "PRISM_MOD_POWER_LITERALLY_FEMALE_INTENT_POWER.smartDescription": "At the start of your next turn, deal damage to random enemies several times.",
+
+  "PRISM_MOD_POWER_PULSATE_POWER.title": "Heartbeat",
+  "PRISM_MOD_POWER_PULSATE_POWER.description": "Every 4th turn, gain [gold]Block[/gold] and Strength.",
+  "PRISM_MOD_POWER_PULSATE_POWER.smartDescription": "Every 4th turn, gain [gold]Block[/gold] and Strength.",
 
   "PRISM_MOD_POWER_RADIANT_GAMBLE_POWER.title": "Radiant Gamble",
   "PRISM_MOD_POWER_RADIANT_GAMBLE_POWER.description": "Whenever you play an Attack, play a random card. Removes itself when this reaches 0.",
   "PRISM_MOD_POWER_RADIANT_GAMBLE_POWER.smartDescription": "Whenever you play an Attack, play a random card. Removes itself when this reaches 0.",
 
   "PRISM_MOD_POWER_DOPAMINE_POWER.title": "Dopamine",
-  "PRISM_MOD_POWER_DOPAMINE_POWER.description": "Whenever you play a card, add a random card to your hand. It costs 0 this turn. Then lose {Amount} HP.",
-  "PRISM_MOD_POWER_DOPAMINE_POWER.smartDescription": "Whenever you play a card, add a random card to your hand. It costs 0 this turn. Then lose {Amount} HP.",
+  "PRISM_MOD_POWER_DOPAMINE_POWER.description": "Whenever you play a card, add a random card to your [gold]hand[/gold]. It costs 0 this turn. Then lose {Amount} HP.",
+  "PRISM_MOD_POWER_DOPAMINE_POWER.smartDescription": "Whenever you play a card, add a random card to your [gold]hand[/gold]. It costs 0 this turn. Then lose {Amount} HP.",
 
   "PRISM_MOD_POWER_VITAL_SPARK_POWER.title": "Vital Spark",
   "PRISM_MOD_POWER_VITAL_SPARK_POWER.description": "Whenever you are attacked, gain {Energy:energyIcons()} next turn.",
-  "PRISM_MOD_POWER_VITAL_SPARK_POWER.smartDescription": "Whenever you are attacked, gain {Energy:energyIcons()} next turn."
+  "PRISM_MOD_POWER_VITAL_SPARK_POWER.smartDescription": "Whenever you are attacked, gain {Energy:energyIcons()} next turn.",
+
+  "PRISM_MOD_POWER_GENT_AND_FECT_POWER.title": "Gent and Fect",
+  "PRISM_MOD_POWER_GENT_AND_FECT_POWER.description": "At the start of your turn, gain Stars and Channel a random Orb.",
+  "PRISM_MOD_POWER_GENT_AND_FECT_POWER.smartDescription": "At the start of your turn, gain Stars and Channel a random Orb.",
+
+  "PRISM_MOD_POWER_GHOST_N_GOBLINS_POWER.title": "Ghosts 'n Goblins",
+  "PRISM_MOD_POWER_GHOST_N_GOBLINS_POWER.description": "Whenever you play a card from another character, alternate effects.",
+  "PRISM_MOD_POWER_GHOST_N_GOBLINS_POWER.smartDescription": "Whenever you play a card from another character, alternate effects.",
+
+  "PRISM_MOD_POWER_OVERCHARGED_LENS_POWER.title": "Overcharged Lens",
+  "PRISM_MOD_POWER_OVERCHARGED_LENS_POWER.description": "The first time you play a card that costs 2 or more this turn, draw {Amount} card.",
+  "PRISM_MOD_POWER_OVERCHARGED_LENS_POWER.smartDescription": "The first time you play a card that costs 2 or more this turn, draw {Amount} card.",
+
+  "PRISM_MOD_POWER_FIELD_PROCUREMENT_POWER.title": "Field Procurement",
+  "PRISM_MOD_POWER_FIELD_PROCUREMENT_POWER.description": "At the start of your turn, add a playable other-character card to your hand.",
+  "PRISM_MOD_POWER_FIELD_PROCUREMENT_POWER.smartDescription": "At the start of your turn, add a playable other-character card to your hand.",
+
+  "PRISM_MOD_POWER_KALEIDOSCOPE_HEART_POWER.title": "Kaleidoscope Heart",
+  "PRISM_MOD_POWER_KALEIDOSCOPE_HEART_POWER.description": "The first {Amount} times you generate a card each turn, gain [gold]Block[/gold] and draw a card.",
+  "PRISM_MOD_POWER_KALEIDOSCOPE_HEART_POWER.smartDescription": "The first {Amount} times you generate a card each turn, gain [gold]Block[/gold] and draw a card.",
+
+  "PRISM_MOD_POWER_BORROWED_ORBIT_POWER.title": "Borrowed Orbit",
+  "PRISM_MOD_POWER_BORROWED_ORBIT_POWER.description": "Whenever you play a card from another character, draw {Amount} additional card next turn.",
+  "PRISM_MOD_POWER_BORROWED_ORBIT_POWER.smartDescription": "Whenever you play a card from another character, draw {Amount} additional card next turn.",
+
+  "PRISM_MOD_POWER_EXTERNAL_REFRACTION_POWER.title": "External Refraction",
+  "PRISM_MOD_POWER_EXTERNAL_REFRACTION_POWER.description": "Whenever you play a card from another character, gain [gold]Block[/gold] and draw cards.",
+  "PRISM_MOD_POWER_EXTERNAL_REFRACTION_POWER.smartDescription": "Whenever you play a card from another character, gain [gold]Block[/gold] and draw cards.",
+
+  "PRISM_MOD_POWER_SHARD_FURNACE_POWER.title": "Shard Furnace",
+  "PRISM_MOD_POWER_SHARD_FURNACE_POWER.description": "At the end of each turn, Exhaust your [gold]hand[/gold]. For each card, deal damage to all enemies.",
+  "PRISM_MOD_POWER_SHARD_FURNACE_POWER.smartDescription": "At the end of each turn, Exhaust your [gold]hand[/gold]. For each card, deal damage to all enemies.",
+
+  "PRISM_MOD_POWER_MIRROR_SCREEN_POWER.title": "Mirror Screen",
+  "PRISM_MOD_POWER_MIRROR_SCREEN_POWER.description": "Reflect the next unblocked attack damage you take before your next turn.",
+  "PRISM_MOD_POWER_MIRROR_SCREEN_POWER.smartDescription": "Reflect the next unblocked attack damage you take before your next turn.",
+
+  "PRISM_MOD_POWER_LENS_RUNAWAY_POWER.title": "Lens Runaway",
+  "PRISM_MOD_POWER_LENS_RUNAWAY_POWER.description": "Whenever you play a card that costs 2 or more, increase the damage of your Attack Intent.",
+  "PRISM_MOD_POWER_LENS_RUNAWAY_POWER.smartDescription": "Whenever you play a card that costs 2 or more, increase the damage of your Attack Intent.",
+
+  "PRISM_MOD_POWER_BORROWED_FOOTWORK_POWER.title": "Diversify",
+  "PRISM_MOD_POWER_BORROWED_FOOTWORK_POWER.description": "The first time you play an other-character card each turn, gain [gold]Block[/gold].",
+  "PRISM_MOD_POWER_BORROWED_FOOTWORK_POWER.smartDescription": "The first time you play an other-character card each turn, gain [gold]Block[/gold].",
+
+  "PRISM_MOD_POWER_WARNING_COLOR_POWER.title": "Bearish Signal",
+  "PRISM_MOD_POWER_WARNING_COLOR_POWER.description": "The first time you create Attack Intent each turn, apply Weak.",
+  "PRISM_MOD_POWER_WARNING_COLOR_POWER.smartDescription": "The first time you create Attack Intent each turn, apply Weak.",
+
+  "PRISM_MOD_POWER_GRAVITY_CAPACITOR_POWER.title": "Safe Asset",
+  "PRISM_MOD_POWER_GRAVITY_CAPACITOR_POWER.description": "Whenever you play a card that costs 2 or more, gain [gold]Block[/gold].",
+  "PRISM_MOD_POWER_GRAVITY_CAPACITOR_POWER.smartDescription": "Whenever you play a card that costs 2 or more, gain [gold]Block[/gold].",
+
+  "PRISM_MOD_POWER_INVERSE_FUND_POWER.title": "Inverse Fund",
+  "PRISM_MOD_POWER_INVERSE_FUND_POWER.description": "Cards that cost more than 2 cost 2.",
+  "PRISM_MOD_POWER_INVERSE_FUND_POWER.smartDescription": "Cards that cost more than 2 cost 2.",
+
+  "PRISM_MOD_POWER_TEMPORARY_THORNS_POWER.title": "Angular Cover",
+  "PRISM_MOD_POWER_TEMPORARY_THORNS_POWER.description": "Gain {Amount} Thorns this turn.",
+  "PRISM_MOD_POWER_TEMPORARY_THORNS_POWER.smartDescription": "Gain {Amount} Thorns this turn."
 }

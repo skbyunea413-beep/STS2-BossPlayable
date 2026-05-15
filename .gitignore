@@ -12,6 +12,8 @@ packages/
 src/.godot/
 src/.build_mods/
 .godot/
+.tmp_mods/
+tmp_mods_verify/
 
 # IDE/editor files
 .vs/

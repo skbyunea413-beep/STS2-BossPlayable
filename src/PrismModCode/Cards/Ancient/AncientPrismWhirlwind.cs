@@ -1,9 +1,11 @@
+using MegaCrit.Sts2.Core.HoverTips;
+
 namespace PrismMod;
 
 public sealed class AncientPrismWhirlwind : PrismCard
 {
     public override string? CustomPortraitPath =>
-        $"{MainFile.ResPath}/images/card_portraits/prismwhirlwind.png";
+        $"{MainFile.ResPath}/images/card_portraits/ancientprismwhirlwind.png";
 
     public override IEnumerable<string> AllPortraitPaths => [CustomPortraitPath!];
 
@@ -15,7 +17,10 @@ public sealed class AncientPrismWhirlwind : PrismCard
         new RepeatVar(3),
     ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [PrismCardKeywords.AttackIntent];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(PrismCardKeywords.AttackIntent),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
@@ -32,6 +37,7 @@ public sealed class AncientPrismWhirlwind : PrismCard
             base.Owner.Creature,
             this);
         intent?.SetTargetAllEnemies();
+        await WarningColorPower.TriggerForAttackIntent(ctx, base.Owner.Creature, null, true, this);
     }
 
     protected override void OnUpgrade()

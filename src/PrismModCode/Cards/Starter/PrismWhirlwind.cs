@@ -1,19 +1,26 @@
+using MegaCrit.Sts2.Core.HoverTips;
+
 namespace PrismMod;
 
 public sealed class PrismWhirlwind : PrismCard
 {
-    private const string SpinSfx = "event:/sfx/enemy/enemy_attacks/infested_prisms/infested_prisms_attack_spin";
+    internal const string SpinSfx = "event:/sfx/enemy/enemy_attacks/infested_prisms/infested_prisms_attack_spin";
 
     public override string? CustomPortraitPath =>
         $"{MainFile.ResPath}/images/card_portraits/prismwhirlwind.png";
 
-    public PrismWhirlwind() : base(2, CardType.Attack, CardRarity.Common, TargetType.AllEnemies) { }
+    public PrismWhirlwind() : base(2, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy) { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(2m, ValueProp.Move),
+        new DamageVar(5m, ValueProp.Move),
         new RepeatVar(3),
-        new CardsVar(1),
+        new PowerVar<WeakPower>(1m),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(PrismCardKeywords.AttackIntent),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
@@ -25,33 +32,31 @@ public sealed class PrismWhirlwind : PrismCard
             return;
         }
 
-        for (int i = 0; i < base.DynamicVars.Cards.IntValue; i++)
+        if (cardPlay.Target == null)
         {
-            var randomCard = PrismRandomCardHelper.CreateRandomCard(base.Owner, IsEligibleWhirlwindCard);
-            if (randomCard != null)
-            {
-                await PrismRandomCardHelper.AutoPlayGeneratedCard(ctx, randomCard);
-            }
+            return;
         }
 
         await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue)
             .FromCard(this)
-            .TargetingAllOpponents(combatState)
+            .Targeting(cardPlay.Target)
             .WithHitCount(base.DynamicVars.Repeat.IntValue)
             .WithAttackerAnim("AttackDouble", 0.2f, base.Owner.Creature)
             .OnlyPlayAnimOnce()
             .WithAttackerFx(null, SpinSfx)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(ctx);
+
+        var intent = await PowerCmd.Apply<AttackIntentWeakPower>(
+            ctx,
+            base.Owner.Creature,
+            base.DynamicVars.Weak.BaseValue,
+            base.Owner.Creature,
+            this);
+        intent?.SetTarget(cardPlay.Target);
     }
 
     protected override void OnUpgrade() => base.DynamicVars.Damage.UpgradeValueBy(1m);
-
-    private static bool IsEligibleWhirlwindCard(CardModel card)
-    {
-        return !card.EnergyCost.CostsX &&
-            card.EnergyCost.GetWithModifiers(CostModifiers.All) >= 2;
-    }
 
     internal static Task ExecuteIntent(PlayerChoiceContext ctx, Creature owner, Creature target, decimal damage, int repeat)
     {

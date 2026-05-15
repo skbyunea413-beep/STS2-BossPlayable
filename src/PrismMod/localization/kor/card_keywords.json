@@ -1,4 +1,8 @@
 {
   "PRISMMOD-ATTACK_INTENT.title": "공격의도",
-  "PRISMMOD-ATTACK_INTENT.description": "이 카드의 공격은 다음 턴 시작 시 실행됩니다."
+  "PRISMMOD-ATTACK_INTENT.description": "이 카드의 공격은 다음 턴 시작 시 실행됩니다.",
+  "PRISMMOD-BATTLE_START.title": "개전",
+  "PRISMMOD-BATTLE_START.description": "이 카드는 전투가 시작할 때 시전됩니다.",
+  "PRISMMOD-TWO_CHARACTERS.title": "두 직업",
+  "PRISMMOD-TWO_CHARACTERS.description": "아이언클래드와 사일런트입니다."
 }

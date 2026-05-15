@@ -10,9 +10,10 @@
   "PRISM_MOD_CHARACTER_PRISM_CHARACTER.eventDeathPrevention": "The prism refracted death for a second. Legally, it is still alive.",
   "PRISM_MOD_CHARACTER_PRISM_CHARACTER.aromaPrinciple": "Burnt minerals, wet starlight, and legally unexplainable blueberry.",
   "PRISM_MOD_CHARACTER_PRISM_CHARACTER.cardsModifierTitle": "Infected Spectrum",
-  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.cardsModifierDescription": "Prism cards can appear in card rewards.",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.cardsModifierDescription": "",
   "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.alive.endTurnPing": "...",
   "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.dead.endTurnPing": "...",
   "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.mirror.startled": "*a startled sound*",
-  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.mirror.incredulous": "*an incredulous sound*"
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.mirror.incredulous": "*an incredulous sound*",
+  "PRISM_MOD_CHARACTER_PRISM_CHARACTER.banter.noCardsThere": "There are no cards there..."
 }

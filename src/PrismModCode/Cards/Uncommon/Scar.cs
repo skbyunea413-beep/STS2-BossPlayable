@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Models.Cards;
 
 namespace PrismMod;
@@ -11,15 +12,14 @@ public sealed class Scar : PrismCard
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new HpLossVar(3m),
-        new CardsVar(3),
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        HoverTipFactory.FromCard<Shiv>(),
+        HoverTipFactory.FromCard<Shiv>(base.IsUpgraded),
     ];
 
-    public Scar() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+    public Scar() : base(2, CardType.Skill, CardRarity.Common, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
@@ -33,12 +33,22 @@ public sealed class Scar : PrismCard
             this);
         if (base.CombatState != null)
         {
-            await Shiv.CreateInHand(base.Owner, base.DynamicVars.Cards.IntValue, base.CombatState);
+            var shivsToCreate = System.Math.Max(0, 10 - PileType.Hand.GetPile(base.Owner).Cards.Count);
+            List<CardModel> shivs = [];
+            for (int i = 0; i < shivsToCreate; i++)
+            {
+                var shiv = base.CombatState.CreateCard<Shiv>(base.Owner);
+                if (base.IsUpgraded)
+                {
+                    CardCmd.Upgrade(shiv, CardPreviewStyle.None);
+                }
+
+                shivs.Add(shiv);
+            }
+
+            await CardPileCmd.AddGeneratedCardsToCombat(shivs, PileType.Hand, base.Owner);
         }
     }
 
-    protected override void OnUpgrade()
-    {
-        base.DynamicVars.Cards.UpgradeValueBy(1m);
-    }
+    protected override void OnUpgrade() { }
 }

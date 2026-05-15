@@ -1,3 +1,5 @@
+using MegaCrit.Sts2.Core.HoverTips;
+
 namespace PrismMod;
 
 public sealed class GentAndFect : PrismCard
@@ -6,25 +8,29 @@ public sealed class GentAndFect : PrismCard
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new StarsVar(7),
-        new PowerVar<FocusPower>(5m),
-        new DynamicVar("OrbSlots", 3m),
+        new StarsVar(2),
     ];
 
-    public GentAndFect() : base(2, CardType.Skill, CardRarity.Common, TargetType.Self) { }
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.Static(StaticHoverTip.Channeling),
+    ];
+
+    public GentAndFect() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self) { }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        await PlayerCmd.GainStars(base.DynamicVars.Stars.BaseValue, base.Owner);
-        await PowerCmd.Apply<FocusPower>(ctx, base.Owner.Creature, base.DynamicVars["FocusPower"].BaseValue, base.Owner.Creature, this);
-        await OrbCmd.AddSlots(base.Owner, base.DynamicVars["OrbSlots"].IntValue);
+        var power = await PowerCmd.Apply<GentAndFectPower>(
+            ctx,
+            base.Owner.Creature,
+            1,
+            base.Owner.Creature,
+            this);
+        if (power != null)
+        {
+            power.Stars = base.DynamicVars.Stars.BaseValue;
+        }
     }
 
-    protected override void OnUpgrade()
-    {
-        base.DynamicVars.Stars.UpgradeValueBy(2m);
-        base.DynamicVars["FocusPower"].UpgradeValueBy(2m);
-        base.DynamicVars["OrbSlots"].UpgradeValueBy(2m);
-    }
+    protected override void OnUpgrade() => base.EnergyCost.UpgradeBy(-1);
 }
