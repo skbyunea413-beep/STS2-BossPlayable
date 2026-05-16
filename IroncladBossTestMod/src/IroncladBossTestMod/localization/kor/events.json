@@ -1,0 +1,10 @@
+{
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.title": "아이언클래드",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.description": "당신은 첨탑을 오르던 도중, 등반가를 맞이하였습니다.\n\n[red]\"{TargetName}... 나의 원수..! 죽인다..!\"[/red]\n\n이 조종당하는 불쌍한 등반가는 건드리면 위험할 것 같습니다.\n그리고 어디선가 악마의 웃음소리가 들려오는 것 같지 않나요?\n죽음의 싸움이 시작될 것 같습니다...",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.options.FIGHT.title": "싸운다",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.options.FIGHT.description": "바쿠가 조종하는 아이언클래드와 싸웁니다!",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.options.RUN.title": "도망친다",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.options.RUN.description": "체력을 32 잃습니다.",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.RUN.description": "[red]\"도망가는 거냐, 이 비겁한 놈!\"[/red]\n\n아이언클래드는 도망가는 당신에게 몽둥이를 휘둘렀습니다!\n\n엉덩이가 아프네요...",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.VICTORY.description": "아이언클래드가 비틀거리며 물러나고, 악마의 웃음소리는 벽 너머로 사라집니다."
+}

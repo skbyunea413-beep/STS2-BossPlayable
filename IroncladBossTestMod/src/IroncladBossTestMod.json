@@ -1,0 +1,17 @@
+{
+  "id": "IroncladBossTestMod",
+  "name": "Ironclad Boss Test",
+  "author": "nagis",
+  "description": "Standalone test mod for the Ironclad boss event.",
+  "version": "v0.1.0",
+  "has_pck": true,
+  "has_dll": true,
+  "min_game_version": "0.105.0",
+  "dependencies": [
+    {
+      "id": "BaseLib",
+      "min_version": "3.1.2"
+    }
+  ],
+  "affects_gameplay": true
+}

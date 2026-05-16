@@ -1,0 +1,10 @@
+{
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.title": "Ironclad",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.description": "While climbing the Spire, you encounter another climber.\n\n[red]\"{TargetName}... my nemesis..! I will kill you..!\"[/red]\n\nThis poor, controlled climber looks dangerous to touch. And doesn't it sound like demonic laughter is coming from somewhere? A fight to the death is about to begin...",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.options.FIGHT.title": "Fight",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.options.FIGHT.description": "Fight Ironclad, controlled by Baku!",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.options.RUN.title": "Run",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.INITIAL.options.RUN.description": "Lose 32 HP.",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.RUN.description": "[red]\"Running away, coward?!\"[/red]\n\nThe Ironclad swings his club at you as you flee!\n\nYour backside hurts...",
+  "IRONCLADBOSSTESTMOD-IRONCLAD_BOSS_EVENT.pages.VICTORY.description": "The Ironclad staggers back, the demonic laughter fading into the walls."
+}

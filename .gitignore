@@ -7,6 +7,7 @@ packages/
 *.pck
 *.zip
 *.nupkg
+*.lscache
 
 # Godot generated state
 src/.godot/
@@ -35,3 +36,7 @@ Compress-DCInsideVideo.ps1
 *.log
 *.tmp
 *.bak
+
+# Local preview renders
+IroncladBossTestMod/src/preview/*.png
+IroncladBossTestMod/src/preview/*.png.import
