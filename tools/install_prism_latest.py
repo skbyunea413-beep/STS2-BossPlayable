@@ -24,6 +24,38 @@ RITSULIB_REPO = "BAKAOLC/STS2-RitsuLib"
 APP_ID = "2868840"
 GAME_FOLDER = "Slay the Spire 2"
 USER_AGENT = "PrismMod-uv-bat-installer"
+WIDTH = 92
+USE_COLOR = True
+
+
+COLORS = {
+    "reset": "\033[0m",
+    "dim": "\033[2m",
+    "bold": "\033[1m",
+    "cyan": "\033[36m",
+    "green": "\033[32m",
+    "yellow": "\033[33m",
+    "red": "\033[31m",
+    "blue": "\033[34m",
+    "magenta": "\033[35m",
+}
+
+
+STATE_COLORS = {
+    "[OK]": "green",
+    "[SKIP]": "blue",
+    "[CHECK]": "cyan",
+    "[GET]": "cyan",
+    "[RUN]": "magenta",
+    "[UPDATE]": "yellow",
+    "[MISSING]": "yellow",
+    "[MISS]": "yellow",
+    "[BACKUP]": "yellow",
+    "[DRY]": "magenta",
+    "[DONE]": "green",
+    "[INFO]": "blue",
+    "[ERROR]": "red",
+}
 
 
 def ko(text: str) -> str:
@@ -31,23 +63,76 @@ def ko(text: str) -> str:
 
 
 def setup_console() -> None:
+    global USE_COLOR
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if hasattr(sys.stderr, "reconfigure"):
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     if os.name == "nt":
         os.system("chcp 65001 > nul")
+        try:
+            kernel32 = ctypes.windll.kernel32
+            handle = kernel32.GetStdHandle(-11)
+            mode = ctypes.c_uint()
+            if kernel32.GetConsoleMode(handle, ctypes.byref(mode)):
+                kernel32.SetConsoleMode(handle, mode.value | 0x0004)
+        except Exception:
+            USE_COLOR = False
+    if not sys.stdout.isatty():
+        USE_COLOR = False
 
 
 def log(message: str = "") -> None:
     print(message, flush=True)
 
 
+def paint(text: str, color: str | None = None, bold: bool = False, dim: bool = False) -> str:
+    if not USE_COLOR:
+        return text
+    parts: list[str] = []
+    if bold:
+        parts.append(COLORS["bold"])
+    if dim:
+        parts.append(COLORS["dim"])
+    if color:
+        parts.append(COLORS[color])
+    if not parts:
+        return text
+    return "".join(parts) + text + COLORS["reset"]
+
+
+def shorten(text: str, limit: int) -> str:
+    if len(text) <= limit:
+        return text
+    if limit <= 3:
+        return text[:limit]
+    return "..." + text[-(limit - 3):]
+
+
+def banner(title: str, subtitle: str) -> None:
+    line = "=" * WIDTH
+    log(paint(line, "cyan", bold=True))
+    log(paint(title, "cyan", bold=True))
+    log(paint(subtitle, dim=True))
+    log(paint(line, "cyan", bold=True))
+
+
+def section(title: str) -> None:
+    log("")
+    label = f" {title} "
+    fill = max(0, WIDTH - len(label))
+    log(paint(label + "-" * fill, "cyan", dim=True))
+
+
 def row(state: str, name: str, detail: str = "") -> None:
+    color = STATE_COLORS.get(state)
+    state_text = paint(f"{state:<9}", color, bold=True)
+    name_text = paint(f"{name:<14}", bold=True)
+    detail = shorten(detail, 68)
     if detail:
-        log(f"{state:<8} {name:<16} {detail}")
+        log(f"  {state_text} {name_text} {detail}")
     else:
-        log(f"{state:<8} {name}")
+        log(f"  {state_text} {name_text}")
 
 
 def fail(message: str) -> None:
@@ -410,6 +495,7 @@ def plan_component(
 
 
 def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: bool) -> None:
+    section("Remote")
     row("[CHECK]", "GitHub", ko("\\ucd5c\\uc2e0 \\ub9b4\\ub9ac\\uc2a4 \\ud655\\uc778 \\uc911"))
     prism_release = latest_release(PRISM_REPO)
     base_release = latest_release(BASELIB_REPO)
@@ -427,6 +513,7 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
     row("[OK]", "BaseLib", f"{base_version} / {base_asset.get('name')}")
     row("[OK]", "RitsuLib", f"{ritsu_version} / {ritsu_asset.get('name')}")
 
+    section("Local")
     state = load_state(mods_dir)
     prism_dirs = find_installed_mods(mods_dir, "PrismMod", ("PrismMod",))
     base_dirs = find_installed_mods(mods_dir, "BaseLib", ("BaseLib",))
@@ -447,6 +534,7 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
 
     cleanup_stray_extracts(mods_dir, backup_root, dry_run)
 
+    section("Actions")
     if dry_run:
         update_prism_dependencies(mods_dir, base_version, ritsu_version, dry_run=True)
         row("[DRY]", "Install", ko("\\ub2e4\\uc6b4\\ub85c\\ub4dc\\uc640 \\uad50\\uccb4\\ub97c \\uac74\\ub108\\ub701\\ub2c8\\ub2e4"))
@@ -512,11 +600,14 @@ def main() -> int:
     setup_console()
     args = parse_args()
 
-    log("PrismMod GitHub Installer")
-    log("=========================")
+    banner(
+        "PrismMod GitHub Installer",
+        ko("\\ucd5c\\uc2e0 PrismMod / BaseLib / RitsuLib\\uc744 \\ud655\\uc778\\ud558\\uace0 \\ud544\\uc694\\ud55c \\ud56d\\ubaa9\\ub9cc \\uc124\\uce58\\ud569\\ub2c8\\ub2e4"),
+    )
     if not is_admin():
         row("[INFO]", "Admin", ko("\\uad00\\ub9ac\\uc790 \\uad8c\\ud55c \\uc5c6\\uc74c. Steam \\ud3f4\\ub354 \\uc4f0\\uae30 \\uad8c\\ud55c\\uc774 \\uc788\\uc73c\\uba74 \\uc9c4\\ud589\\ub429\\ub2c8\\ub2e4"))
 
+    section("Environment")
     mods_dir = resolve_mods_dir(args.mods_dir)
     backup_root = resolve_backup_root(create=not args.dry_run)
     row("[OK]", "Backup", str(backup_root))
@@ -525,7 +616,7 @@ def main() -> int:
 
     install_all(mods_dir, backup_root, args.force_prism, args.dry_run)
 
-    log("")
+    section("Finish")
     row("[DONE]", "Finish", ko("\\uac8c\\uc784\\uc744 \\uc644\\uc804\\ud788 \\uc885\\ub8cc\\ud55c \\ub4a4 \\ub2e4\\uc2dc \\uc2e4\\ud589\\ud558\\uace0 Prism Shirou\\ub97c \\ucf1c\\uc138\\uc694"))
     return 0
 
