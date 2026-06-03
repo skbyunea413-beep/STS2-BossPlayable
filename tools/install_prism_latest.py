@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import ctypes
 import datetime as dt
+import hashlib
 import json
 import os
 import shutil
@@ -25,6 +26,10 @@ GAME_FOLDER = "Slay the Spire 2"
 USER_AGENT = "PrismMod-uv-bat-installer"
 
 
+def ko(text: str) -> str:
+    return text.encode("ascii").decode("unicode_escape")
+
+
 def setup_console() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -34,8 +39,15 @@ def setup_console() -> None:
         os.system("chcp 65001 > nul")
 
 
-def log(message: str) -> None:
+def log(message: str = "") -> None:
     print(message, flush=True)
+
+
+def row(state: str, name: str, detail: str = "") -> None:
+    if detail:
+        log(f"{state:<8} {name:<16} {detail}")
+    else:
+        log(f"{state:<8} {name}")
 
 
 def fail(message: str) -> None:
@@ -67,17 +79,7 @@ def find_asset(release: dict[str, Any], contains: tuple[str, ...], suffix: str =
         lowered = name.lower()
         if lowered.endswith(suffix) and all(part.lower() in lowered for part in contains):
             return asset
-    fail(f"릴리스 파일을 찾지 못했습니다: {contains} / {release.get('html_url', '(unknown release)')}")
-
-
-def download(url: str, dest: Path) -> None:
-    if os.name == "nt":
-        powershell_download(url, dest)
-        return
-
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=180) as response, dest.open("wb") as output:
-        shutil.copyfileobj(response, output)
+    fail(ko("\\ub9b4\\ub9ac\\uc2a4 \\ud30c\\uc77c\\uc744 \\ucc3e\\uc9c0 \\ubabb\\ud588\\uc2b5\\ub2c8\\ub2e4: ") + f"{contains}")
 
 
 def powershell_download(url: str, dest: Path) -> None:
@@ -97,7 +99,16 @@ def powershell_download(url: str, dest: Path) -> None:
     )
     if result.returncode != 0:
         detail = (result.stderr or result.stdout).strip()
-        fail(f"다운로드 실패: {url}\n{detail}")
+        fail(ko("\\ub2e4\\uc6b4\\ub85c\\ub4dc \\uc2e4\\ud328: ") + f"{url}\n{detail}")
+
+
+def download(url: str, dest: Path) -> None:
+    if os.name == "nt":
+        powershell_download(url, dest)
+        return
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(req, timeout=180) as response, dest.open("wb") as output:
+        shutil.copyfileobj(response, output)
 
 
 def unique_paths(paths: list[Path]) -> list[Path]:
@@ -174,34 +185,62 @@ def steam_library_paths() -> list[Path]:
 def find_game_path() -> Path:
     registry_path = installed_game_path()
     if registry_path:
+        row("[OK]", "Game", ko("\\ub808\\uc9c0\\uc2a4\\ud2b8\\ub9ac\\uc5d0\\uc11c \\ucc3e\\uc74c: ") + str(registry_path))
         return registry_path
     for library in steam_library_paths():
         candidate = library / "steamapps" / "common" / GAME_FOLDER
         if (candidate / "mods").exists() or (candidate / "data_sts2_windows_x86_64").exists():
+            row("[OK]", "Game", ko("Steam \\ub77c\\uc774\\ube0c\\ub7ec\\ub9ac\\uc5d0\\uc11c \\ucc3e\\uc74c: ") + str(candidate))
             return candidate
-    fail("Slay the Spire 2 설치 경로를 찾지 못했습니다. --mods-dir 로 mods 폴더를 지정해 주세요.")
+    fail(ko("Slay the Spire 2 \\uc124\\uce58 \\uacbd\\ub85c\\ub97c \\ucc3e\\uc9c0 \\ubabb\\ud588\\uc2b5\\ub2c8\\ub2e4. --mods-dir \\ub85c mods \\ud3f4\\ub354\\ub97c \\uc9c0\\uc815\\ud574 \\uc8fc\\uc138\\uc694."))
 
 
 def resolve_mods_dir(requested: str | None) -> Path:
     if requested:
         mods_dir = Path(requested).expanduser().resolve()
+        row("[OK]", "Mods", ko("\\uc9c0\\uc815\\ub41c \\uacbd\\ub85c: ") + str(mods_dir))
     elif os.environ.get("STS2_MODS_DIR"):
         mods_dir = Path(os.environ["STS2_MODS_DIR"]).expanduser().resolve()
+        row("[OK]", "Mods", ko("STS2_MODS_DIR: ") + str(mods_dir))
     else:
         mods_dir = find_game_path() / "mods"
+        row("[OK]", "Mods", ko("\\uc790\\ub3d9 \\ud0d0\\uc0c9: ") + str(mods_dir))
     mods_dir.mkdir(parents=True, exist_ok=True)
     return mods_dir
 
 
-def resolve_backup_root(mods_dir: Path) -> Path:
-    stamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
+def local_root() -> Path:
     if os.name == "nt" and os.environ.get("LOCALAPPDATA"):
-        root = Path(os.environ["LOCALAPPDATA"]) / "PrismModInstaller" / "backups"
-    else:
-        root = mods_dir.parent / "PrismModInstallerBackups"
-    backup_root = root / stamp
-    backup_root.mkdir(parents=True, exist_ok=True)
+        return Path(os.environ["LOCALAPPDATA"]) / "PrismModInstaller"
+    return Path.home() / ".prism-mod-installer"
+
+
+def resolve_backup_root(create: bool) -> Path:
+    stamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_root = local_root() / "backups" / stamp
+    if create:
+        backup_root.mkdir(parents=True, exist_ok=True)
     return backup_root
+
+
+def state_path(mods_dir: Path) -> Path:
+    key = hashlib.sha256(str(mods_dir).lower().encode("utf-8")).hexdigest()[:16]
+    root = local_root() / "state"
+    root.mkdir(parents=True, exist_ok=True)
+    return root / f"{key}.json"
+
+
+def load_state(mods_dir: Path) -> dict[str, Any]:
+    path = state_path(mods_dir)
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def save_state(mods_dir: Path, state: dict[str, Any]) -> None:
+    path = state_path(mods_dir)
+    path.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def backup_path(backup_root: Path, source: Path) -> Path:
@@ -213,46 +252,68 @@ def backup_path(backup_root: Path, source: Path) -> Path:
     return target
 
 
-def read_mod_id(folder: Path) -> str | None:
-    candidates = list(folder.glob("*.json")) + list(folder.glob("mod_manifest.json"))
+def read_manifest(folder: Path) -> dict[str, Any] | None:
+    candidates = list(folder.glob("*.json"))
+    manifest = folder / "mod_manifest.json"
+    if manifest.exists():
+        candidates.insert(0, manifest)
     for path in candidates:
         try:
             data = json.loads(path.read_text(encoding="utf-8-sig"))
         except (OSError, json.JSONDecodeError, UnicodeDecodeError):
             continue
-        mod_id = data.get("id")
-        if isinstance(mod_id, str) and mod_id:
-            return mod_id
+        if isinstance(data.get("id"), str):
+            return data
     return None
 
 
-def backup_matching(
-    mods_dir: Path,
-    backup_root: Path,
-    prefixes: tuple[str, ...],
-    mod_ids: tuple[str, ...] = (),
-) -> None:
+def find_installed_mods(mods_dir: Path, mod_id: str, prefixes: tuple[str, ...]) -> list[Path]:
+    found: list[Path] = []
     for entry in mods_dir.iterdir():
         if not entry.is_dir():
             continue
         lower = entry.name.lower()
-        mod_id = read_mod_id(entry)
-        if any(lower.startswith(prefix.lower()) for prefix in prefixes) or (mod_id in mod_ids):
-            dest = backup_path(backup_root, entry)
-            log(f"백업: {entry.name} -> {dest}")
-            shutil.move(str(entry), str(dest))
+        manifest = read_manifest(entry)
+        if any(lower.startswith(prefix.lower()) for prefix in prefixes) or (manifest and manifest.get("id") == mod_id):
+            found.append(entry)
+    return found
 
 
-def install_zip(zip_path: Path, mods_dir: Path, folder_name: str | None = None) -> Path:
+def installed_version(folder: Path) -> str | None:
+    manifest = read_manifest(folder)
+    if not manifest:
+        return None
+    value = manifest.get("version")
+    return str(value).lstrip("v") if value else None
+
+
+def backup_folder(source: Path, backup_root: Path) -> None:
+    backup_root.mkdir(parents=True, exist_ok=True)
+    dest = backup_path(backup_root, source)
+    row("[BACKUP]", source.name, str(dest))
+    shutil.move(str(source), str(dest))
+
+
+def cleanup_stray_extracts(mods_dir: Path, backup_root: Path, dry_run: bool) -> None:
+    strays = [p for p in mods_dir.iterdir() if p.is_dir() and p.name.startswith("prism_extract_")]
+    if not strays:
+        row("[OK]", "Cleanup", ko("\\uc784\\uc2dc \\ud3f4\\ub354 \\uc5c6\\uc74c"))
+        return
+    for folder in strays:
+        if dry_run:
+            row("[DRY]", "Cleanup", ko("\\uc774\\ub3d9 \\uc608\\uc815: ") + folder.name)
+        else:
+            backup_folder(folder, backup_root)
+
+
+def install_zip(zip_path: Path, mods_dir: Path, folder_name: str) -> Path:
     temp_extract = Path(tempfile.mkdtemp(prefix="prism_extract_"))
     try:
         with zipfile.ZipFile(zip_path) as archive:
             archive.extractall(temp_extract)
         children = [path for path in temp_extract.iterdir() if path.name != "__MACOSX"]
         source = children[0] if len(children) == 1 and children[0].is_dir() else temp_extract
-        if not folder_name and source == temp_extract:
-            fail(f"ZIP has no top-level folder and no target folder was provided: {zip_path.name}")
-        target = mods_dir / (folder_name or source.name)
+        target = mods_dir / folder_name
         if target.exists():
             shutil.rmtree(target)
         shutil.copytree(source, target)
@@ -261,8 +322,30 @@ def install_zip(zip_path: Path, mods_dir: Path, folder_name: str | None = None) 
         shutil.rmtree(temp_extract, ignore_errors=True)
 
 
+def plan_component(
+    label: str,
+    installed: list[Path],
+    installed_ver: str | None,
+    latest_ver: str,
+    force: bool = False,
+) -> bool:
+    if not installed:
+        row("[MISSING]", label, ko("\\uc124\\uce58\\ub428 \\uc5c6\\uc74c -> \\uc124\\uce58"))
+        return True
+    names = ", ".join(path.name for path in installed)
+    if force:
+        row("[UPDATE]", label, ko("\\uac15\\uc81c \\uc7ac\\uc124\\uce58: ") + names)
+        return True
+    if installed_ver and installed_ver == latest_ver:
+        row("[SKIP]", label, f"{installed_ver} ({names})")
+        return False
+    current = installed_ver or ko("\\ubc84\\uc804 \\ud655\\uc778 \\ubd88\\uac00")
+    row("[UPDATE]", label, f"{current} -> {latest_ver} ({names})")
+    return True
+
+
 def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: bool) -> None:
-    log("GitHub 최신 릴리스 확인 중...")
+    row("[CHECK]", "GitHub", ko("\\ucd5c\\uc2e0 \\ub9b4\\ub9ac\\uc2a4 \\ud655\\uc778 \\uc911"))
     prism_release = latest_release(PRISM_REPO)
     base_release = latest_release(BASELIB_REPO)
     ritsu_release = latest_release(RITSULIB_REPO)
@@ -271,53 +354,81 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
     base_asset = find_asset(base_release, ("baselib",))
     ritsu_asset = find_asset(ritsu_release, ("sts2-ritsulib", "variant-pack"))
 
-    log(f"PrismMod: {prism_release.get('tag_name', '(unknown)')}")
-    log(f"BaseLib: {base_release.get('tag_name', '(unknown)')}")
-    log(f"RitsuLib: {ritsu_release.get('tag_name', '(unknown)')}")
-    log(f"PrismMod ZIP: {prism_asset.get('name')}")
-    log(f"BaseLib ZIP: {base_asset.get('name')}")
-    log(f"RitsuLib ZIP: {ritsu_asset.get('name')}")
+    prism_tag = str(prism_release.get("tag_name", "") or "latest")
+    base_version = str(base_release.get("tag_name", "")).lstrip("v") or "latest"
+    ritsu_version = str(ritsu_release.get("tag_name", "")).lstrip("v") or "latest"
+
+    row("[OK]", "PrismMod", f"{prism_tag} / {prism_asset.get('name')}")
+    row("[OK]", "BaseLib", f"{base_version} / {base_asset.get('name')}")
+    row("[OK]", "RitsuLib", f"{ritsu_version} / {ritsu_asset.get('name')}")
+
+    state = load_state(mods_dir)
+    prism_dirs = find_installed_mods(mods_dir, "PrismMod", ("PrismMod",))
+    base_dirs = find_installed_mods(mods_dir, "BaseLib", ("BaseLib",))
+    ritsu_dirs = find_installed_mods(mods_dir, "STS2-RitsuLib", ("STS2-RitsuLib",))
+
+    row("[CHECK]", "Installed", ko("\\ud604\\uc7ac \\ud30c\\uc77c \\ud655\\uc778"))
+    prism_needs_install = force_prism or not prism_dirs or state.get("prism_release") != prism_tag
+    if prism_dirs and not prism_needs_install:
+        row("[SKIP]", "PrismMod", f"{prism_tag} ({', '.join(p.name for p in prism_dirs)})")
+    elif prism_dirs:
+        old = state.get("prism_release") or ko("\\uc774\\uc804 \\uc0c1\\ud0dc \\uc5c6\\uc74c")
+        row("[UPDATE]", "PrismMod", f"{old} -> {prism_tag} ({', '.join(p.name for p in prism_dirs)})")
+    else:
+        row("[MISSING]", "PrismMod", ko("\\uc124\\uce58\\ub428 \\uc5c6\\uc74c -> \\uc124\\uce58"))
+
+    base_needs_install = plan_component("BaseLib", base_dirs, installed_version(base_dirs[0]) if base_dirs else None, base_version)
+    ritsu_needs_install = plan_component("RitsuLib", ritsu_dirs, installed_version(ritsu_dirs[0]) if ritsu_dirs else None, ritsu_version)
+
+    cleanup_stray_extracts(mods_dir, backup_root, dry_run)
 
     if dry_run:
-        log("dry-run: 다운로드와 설치를 건너뜁니다.")
+        row("[DRY]", "Install", ko("\\ub2e4\\uc6b4\\ub85c\\ub4dc\\uc640 \\uad50\\uccb4\\ub97c \\uac74\\ub108\\ub701\\ub2c8\\ub2e4"))
         return
 
+    tasks: list[tuple[str, dict[str, Any], Path, str, list[Path]]] = []
     with tempfile.TemporaryDirectory(prefix="prism_download_") as temp:
         temp_dir = Path(temp)
-        downloads = (
-            (prism_asset, temp_dir / prism_asset["name"]),
-            (base_asset, temp_dir / base_asset["name"]),
-            (ritsu_asset, temp_dir / ritsu_asset["name"]),
-        )
-        for asset, path in downloads:
-            log(f"다운로드: {asset['name']}")
+        if prism_needs_install:
+            tasks.append(("PrismMod", prism_asset, temp_dir / prism_asset["name"], "PrismMod", prism_dirs))
+        if base_needs_install:
+            tasks.append(("BaseLib", base_asset, temp_dir / base_asset["name"], f"BaseLib.{base_version}", base_dirs))
+        if ritsu_needs_install:
+            tasks.append(("RitsuLib", ritsu_asset, temp_dir / ritsu_asset["name"], "STS2-RitsuLib", ritsu_dirs))
+
+        if not tasks:
+            row("[DONE]", "Install", ko("\\uc774\\ubbf8 \\ubaa8\\ub450 \\ucd5c\\uc2e0\\uc785\\ub2c8\\ub2e4"))
+            return
+
+        for label, asset, path, _, _ in tasks:
+            row("[GET]", label, str(asset.get("name")))
             download(asset["browser_download_url"], path)
 
-        backup_matching(mods_dir, backup_root, ("prism_extract_",))
-        backup_matching(mods_dir, backup_root, ("BaseLib", "STS2-RitsuLib"), ("BaseLib", "STS2-RitsuLib"))
+        for label, _, path, folder_name, installed_dirs in tasks:
+            for folder in installed_dirs:
+                if folder.exists():
+                    backup_folder(folder, backup_root)
+            installed = install_zip(path, mods_dir, folder_name)
+            row("[OK]", label, ko("\\uc124\\uce58 \\uc644\\ub8cc: ") + str(installed))
 
-        prism_target = mods_dir / "PrismMod"
-        if prism_target.exists() and force_prism:
-            dest = backup_path(backup_root, prism_target)
-            log(f"백업: PrismMod -> {dest}")
-            shutil.move(str(prism_target), str(dest))
-        elif prism_target.exists():
-            log("PrismMod: 기존 설치를 최신 릴리스로 교체합니다.")
-            dest = backup_path(backup_root, prism_target)
-            log(f"백업: PrismMod -> {dest}")
-            shutil.move(str(prism_target), str(dest))
-
-        log(f"설치 완료: {install_zip(downloads[0][1], mods_dir, 'PrismMod')}")
-        base_version = str(base_release.get("tag_name", "")).lstrip("v") or "latest"
-        log(f"설치 완료: {install_zip(downloads[1][1], mods_dir, f'BaseLib.{base_version}')}")
-        log(f"설치 완료: {install_zip(downloads[2][1], mods_dir, 'STS2-RitsuLib')}")
+    state.update(
+        {
+            "mods_dir": str(mods_dir),
+            "prism_release": prism_tag,
+            "baselib_version": base_version,
+            "ritsulib_version": ritsu_version,
+            "updated_at": dt.datetime.now().isoformat(timespec="seconds"),
+        }
+    )
+    save_state(mods_dir, state)
+    row("[OK]", "State", str(state_path(mods_dir)))
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Install latest PrismMod and STS2 dependencies.")
-    parser.add_argument("--mods-dir", help="Slay the Spire 2 mods 폴더를 직접 지정합니다.")
-    parser.add_argument("--force-prism", action="store_true", help="PrismMod를 백업 후 다시 설치합니다.")
-    parser.add_argument("--dry-run", action="store_true", help="최신 릴리스 확인만 하고 설치하지 않습니다.")
+    parser.add_argument("--mods-dir", help="Slay the Spire 2 mods folder.")
+    parser.add_argument("--force-prism", action="store_true", help="Reinstall PrismMod even if the latest release is recorded.")
+    parser.add_argument("--dry-run", action="store_true", help="Only check status. Do not download or install.")
     return parser.parse_args()
 
 
@@ -334,21 +445,21 @@ def main() -> int:
     setup_console()
     args = parse_args()
 
-    log("PrismMod GitHub 최신 설치기")
-    log("===========================")
+    log("PrismMod GitHub Installer")
+    log("=========================")
     if not is_admin():
-        log("참고: 관리자 권한이 아니어도 Steam 라이브러리 쓰기 권한이 있으면 설치됩니다.")
+        row("[INFO]", "Admin", ko("\\uad00\\ub9ac\\uc790 \\uad8c\\ud55c \\uc5c6\\uc74c. Steam \\ud3f4\\ub354 \\uc4f0\\uae30 \\uad8c\\ud55c\\uc774 \\uc788\\uc73c\\uba74 \\uc9c4\\ud589\\ub429\\ub2c8\\ub2e4"))
 
     mods_dir = resolve_mods_dir(args.mods_dir)
-    backup_root = resolve_backup_root(mods_dir)
-    log(f"mods 폴더: {mods_dir}")
-    log(f"백업 폴더: {backup_root}")
-    log("주의: 백업은 모드 인식을 피하기 위해 mods 폴더 밖에 저장합니다.")
+    backup_root = resolve_backup_root(create=not args.dry_run)
+    row("[OK]", "Backup", str(backup_root))
+    row("[INFO]", "Backup", ko("mods \\ud3f4\\ub354 \\ubc16\\uc5d0 \\uc800\\uc7a5\\ud574 \\ubaa8\\ub4dc \\uc778\\uc2dd\\uc744 \\ud53c\\ud569\\ub2c8\\ub2e4"))
+    log("")
 
     install_all(mods_dir, backup_root, args.force_prism, args.dry_run)
 
     log("")
-    log("완료. 게임을 완전히 종료한 뒤 다시 실행하고 모드 목록에서 Prism Shirou를 켜세요.")
+    row("[DONE]", "Finish", ko("\\uac8c\\uc784\\uc744 \\uc644\\uc804\\ud788 \\uc885\\ub8cc\\ud55c \\ub4a4 \\ub2e4\\uc2dc \\uc2e4\\ud589\\ud558\\uace0 Prism Shirou\\ub97c \\ucf1c\\uc138\\uc694"))
     return 0
 
 
@@ -358,5 +469,5 @@ if __name__ == "__main__":
     except Exception as exc:
         setup_console()
         log("")
-        log(f"오류: {exc}")
+        row("[ERROR]", "Installer", str(exc))
         raise SystemExit(1)
