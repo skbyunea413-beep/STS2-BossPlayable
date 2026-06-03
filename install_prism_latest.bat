@@ -3,7 +3,7 @@ setlocal EnableExtensions
 chcp 65001 > nul
 
 set "PYTHONUTF8=1"
-set "SCRIPT_API=https://api.github.com/repos/skbyunea413-beep/STS2-BossPlayable/contents/tools/install_prism_latest.py?ref=main"
+set "SCRIPT_URL=https://github.com/skbyunea413-beep/STS2-BossPlayable/raw/refs/heads/main/tools/install_prism_latest.py?cache=%RANDOM%%RANDOM%"
 set "TEMP_SCRIPT=%TEMP%\install_prism_latest_%RANDOM%%RANDOM%.py"
 
 echo ============================================================
@@ -37,7 +37,7 @@ if errorlevel 1 (
 )
 
 echo [GET]    Script          downloading latest installer from GitHub
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$ProgressPreference='SilentlyContinue'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $r=Invoke-RestMethod -Headers @{ 'User-Agent'='PrismMod-installer-bat' } -Uri '%SCRIPT_API%'; $b64=($r.content -replace '\s',''); [IO.File]::WriteAllBytes('%TEMP_SCRIPT%', [Convert]::FromBase64String($b64))"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ProgressPreference='SilentlyContinue'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Headers @{ 'User-Agent'='PrismMod-installer-bat' } -Uri '%SCRIPT_URL%' -OutFile '%TEMP_SCRIPT%'"
 if errorlevel 1 (
   echo [ERROR]  Script          download failed
   pause
