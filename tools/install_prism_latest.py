@@ -382,9 +382,9 @@ def local_root() -> Path:
     return Path.home() / ".prism-mod-installer"
 
 
-def resolve_backup_root(create: bool) -> Path:
+def resolve_backup_root(mods_dir: Path, create: bool) -> Path:
     stamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_root = local_root() / "backups" / stamp
+    backup_root = mods_dir.parent / "PrismModInstallerBackups" / stamp
     if create:
         backup_root.mkdir(parents=True, exist_ok=True)
     return backup_root
@@ -452,6 +452,24 @@ def installed_version(folder: Path) -> str | None:
         return None
     value = manifest.get("version")
     return str(value).lstrip("v") if value else None
+
+
+def folder_fingerprint(folder: Path) -> str | None:
+    if not folder.exists() or not folder.is_dir():
+        return None
+    digest = hashlib.sha256()
+    files = [path for path in folder.rglob("*") if path.is_file()]
+    if not files:
+        return None
+    for path in sorted(files, key=lambda p: str(p.relative_to(folder)).lower()):
+        rel = str(path.relative_to(folder)).replace("\\", "/").lower()
+        digest.update(rel.encode("utf-8"))
+        digest.update(b"\0")
+        with path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        digest.update(b"\0")
+    return digest.hexdigest()
 
 
 def find_prism_manifest(mods_dir: Path) -> Path | None:
@@ -524,6 +542,12 @@ def backup_folder(source: Path, backup_root: Path) -> None:
     dest = backup_path(backup_root, source)
     row("[BACKUP]", source.name, str(dest))
     shutil.move(str(source), str(dest))
+    if source.exists():
+        fail(
+            ko("\\uae30\\uc874 \\ud3f4\\ub354\\ub97c \\uc81c\\uac70\\ud558\\uc9c0 \\ubabb\\ud588\\uc2b5\\ub2c8\\ub2e4. ")
+            + ko("\\uac8c\\uc784, Steam \\ubaa8\\ub4dc \\ud654\\uba74, \\ud0d0\\uc0c9\\uae30, \\ubc31\\uc2e0 \\uac80\\uc0ac\\ub97c \\ub2eb\\uace0 \\ub2e4\\uc2dc \\uc2e4\\ud589\\ud574 \\uc8fc\\uc138\\uc694: ")
+            + str(source)
+        )
 
 
 def cleanup_stray_extracts(mods_dir: Path, backup_root: Path, dry_run: bool) -> None:
@@ -600,14 +624,25 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
     prism_dirs = find_installed_mods(mods_dir, "PrismMod", ("PrismMod",))
     base_dirs = find_installed_mods(mods_dir, "BaseLib", ("BaseLib",))
     ritsu_dirs = find_installed_mods(mods_dir, "STS2-RitsuLib", ("STS2-RitsuLib",))
+    current_prism_fingerprint = folder_fingerprint(prism_dirs[0]) if prism_dirs else None
+    recorded_prism_fingerprint = state.get("prism_fingerprint")
 
     row("[CHECK]", "Installed", ko("\\ud604\\uc7ac \\ud30c\\uc77c \\ud655\\uc778"))
-    prism_needs_install = force_prism or not prism_dirs or state.get("prism_release") != prism_tag
+    prism_needs_install = (
+        force_prism
+        or not prism_dirs
+        or state.get("prism_release") != prism_tag
+        or not recorded_prism_fingerprint
+        or current_prism_fingerprint != recorded_prism_fingerprint
+    )
     if prism_dirs and not prism_needs_install:
         row("[SKIP]", "PrismMod", f"{prism_tag} ({', '.join(p.name for p in prism_dirs)})")
     elif prism_dirs:
         old = state.get("prism_release") or ko("\\uc774\\uc804 \\uc0c1\\ud0dc \\uc5c6\\uc74c")
-        row("[UPDATE]", "PrismMod", f"{old} -> {prism_tag} ({', '.join(p.name for p in prism_dirs)})")
+        if old == prism_tag and current_prism_fingerprint != recorded_prism_fingerprint:
+            row("[UPDATE]", "PrismMod", ko("\\uc124\\uce58 \\ud30c\\uc77c\\uc774 \\uae30\\ub85d\\ub41c \\ucd5c\\uc2e0 \\uc0c1\\ud0dc\\uc640 \\ub2e4\\ub984: ") + ", ".join(p.name for p in prism_dirs))
+        else:
+            row("[UPDATE]", "PrismMod", f"{old} -> {prism_tag} ({', '.join(p.name for p in prism_dirs)})")
     else:
         row("[MISSING]", "PrismMod", ko("\\uc124\\uce58\\ub428 \\uc5c6\\uc74c -> \\uc124\\uce58"))
 
@@ -644,14 +679,17 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
                     if folder.exists():
                         backup_folder(folder, backup_root)
                 installed = install_zip(path, mods_dir, folder_name)
-                row("[OK]", label, ko("\\uc124\\uce58 \\uc644\\ub8cc: ") + str(installed))
+            row("[OK]", label, ko("\\uc124\\uce58 \\uc644\\ub8cc: ") + str(installed))
 
     update_prism_dependencies(mods_dir, base_version, ritsu_version, dry_run=False)
+    prism_dirs_after = find_installed_mods(mods_dir, "PrismMod", ("PrismMod",))
+    installed_prism_fingerprint = folder_fingerprint(prism_dirs_after[0]) if prism_dirs_after else None
 
     state.update(
         {
             "mods_dir": str(mods_dir),
             "prism_release": prism_tag,
+            "prism_fingerprint": installed_prism_fingerprint,
             "baselib_version": base_version,
             "ritsulib_version": ritsu_version,
             "updated_at": dt.datetime.now().isoformat(timespec="seconds"),
@@ -691,7 +729,7 @@ def main() -> int:
 
     section("Environment")
     mods_dir = resolve_mods_dir(args.mods_dir)
-    backup_root = resolve_backup_root(create=not args.dry_run)
+    backup_root = resolve_backup_root(mods_dir, create=not args.dry_run)
     row("[OK]", "Backup", str(backup_root))
     row("[INFO]", "Backup", ko("mods \\ud3f4\\ub354 \\ubc16\\uc5d0 \\uc800\\uc7a5\\ud574 \\ubaa8\\ub4dc \\uc778\\uc2dd\\uc744 \\ud53c\\ud569\\ub2c8\\ub2e4"))
     log("")
