@@ -287,6 +287,71 @@ def installed_version(folder: Path) -> str | None:
     return str(value).lstrip("v") if value else None
 
 
+def find_prism_manifest(mods_dir: Path) -> Path | None:
+    prism_dirs = find_installed_mods(mods_dir, "PrismMod", ("PrismMod",))
+    for folder in prism_dirs:
+        preferred = folder / "PrismMod.json"
+        if preferred.exists():
+            return preferred
+        for candidate in folder.glob("*.json"):
+            try:
+                data = json.loads(candidate.read_text(encoding="utf-8-sig"))
+            except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+                continue
+            if data.get("id") == "PrismMod":
+                return candidate
+    return None
+
+
+def update_prism_dependencies(mods_dir: Path, base_version: str, ritsu_version: str, dry_run: bool) -> bool:
+    manifest_path = find_prism_manifest(mods_dir)
+    if not manifest_path:
+        row("[MISS]", "Manifest", ko("PrismMod.json \\uc5c6\\uc74c"))
+        return False
+
+    try:
+        data = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
+        fail(ko("PrismMod.json \\uc77d\\uae30 \\uc2e4\\ud328: ") + f"{manifest_path}\n{exc}")
+
+    dependencies = data.get("dependencies")
+    if not isinstance(dependencies, list):
+        dependencies = []
+        data["dependencies"] = dependencies
+
+    wanted = {
+        "BaseLib": base_version,
+        "STS2-RitsuLib": ritsu_version,
+    }
+    changed: list[str] = []
+    for dep_id, version in wanted.items():
+        item = None
+        for dep in dependencies:
+            if isinstance(dep, dict) and dep.get("id") == dep_id:
+                item = dep
+                break
+        if item is None:
+            item = {"id": dep_id}
+            dependencies.append(item)
+        old = str(item.get("min_version", ""))
+        if old != version:
+            item["min_version"] = version
+            changed.append(f"{dep_id} {old or '-'} -> {version}")
+
+    if not changed:
+        row("[SKIP]", "Manifest", ko("\\uc758\\uc874\\uc131 \\ubc84\\uc804 \\uc774\\ubbf8 \\uc77c\\uce58"))
+        return False
+
+    detail = ", ".join(changed)
+    if dry_run:
+        row("[DRY]", "Manifest", detail)
+        return True
+
+    manifest_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    row("[OK]", "Manifest", detail)
+    return True
+
+
 def backup_folder(source: Path, backup_root: Path) -> None:
     backup_root.mkdir(parents=True, exist_ok=True)
     dest = backup_path(backup_root, source)
@@ -383,6 +448,7 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
     cleanup_stray_extracts(mods_dir, backup_root, dry_run)
 
     if dry_run:
+        update_prism_dependencies(mods_dir, base_version, ritsu_version, dry_run=True)
         row("[DRY]", "Install", ko("\\ub2e4\\uc6b4\\ub85c\\ub4dc\\uc640 \\uad50\\uccb4\\ub97c \\uac74\\ub108\\ub701\\ub2c8\\ub2e4"))
         return
 
@@ -398,18 +464,19 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
 
         if not tasks:
             row("[DONE]", "Install", ko("\\uc774\\ubbf8 \\ubaa8\\ub450 \\ucd5c\\uc2e0\\uc785\\ub2c8\\ub2e4"))
-            return
+        else:
+            for label, asset, path, _, _ in tasks:
+                row("[GET]", label, str(asset.get("name")))
+                download(asset["browser_download_url"], path)
 
-        for label, asset, path, _, _ in tasks:
-            row("[GET]", label, str(asset.get("name")))
-            download(asset["browser_download_url"], path)
+            for label, _, path, folder_name, installed_dirs in tasks:
+                for folder in installed_dirs:
+                    if folder.exists():
+                        backup_folder(folder, backup_root)
+                installed = install_zip(path, mods_dir, folder_name)
+                row("[OK]", label, ko("\\uc124\\uce58 \\uc644\\ub8cc: ") + str(installed))
 
-        for label, _, path, folder_name, installed_dirs in tasks:
-            for folder in installed_dirs:
-                if folder.exists():
-                    backup_folder(folder, backup_root)
-            installed = install_zip(path, mods_dir, folder_name)
-            row("[OK]", label, ko("\\uc124\\uce58 \\uc644\\ub8cc: ") + str(installed))
+    update_prism_dependencies(mods_dir, base_version, ritsu_version, dry_run=False)
 
     state.update(
         {
