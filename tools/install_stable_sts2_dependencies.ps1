@@ -127,6 +127,21 @@ function Resolve-ModsDir {
     return (Resolve-Path -LiteralPath $resolvedModsDir).Path
 }
 
+function New-ExternalBackupDir {
+    param([string]$ModsDir, [string]$Stamp)
+
+    if ($env:LOCALAPPDATA) {
+        $root = Join-Path $env:LOCALAPPDATA "PrismModInstaller\backups"
+    }
+    else {
+        $root = Join-Path (Split-Path -Parent $ModsDir) "PrismModInstallerBackups"
+    }
+
+    $path = Join-Path $root $Stamp
+    New-Item -ItemType Directory -Path $path -Force | Out-Null
+    return $path
+}
+
 function Backup-ExistingDependency {
     param([string]$ModsDir, [string]$Pattern, [string]$BackupDir)
 
@@ -175,13 +190,13 @@ if (-not $PrismProject) {
 $ModsDir = Resolve-ModsDir $ModsDir $modRoot
 $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $workDir = Join-Path $env:TEMP "sts2_dependency_install_$stamp"
-$backupDir = Join-Path $ModsDir "_dependency_backups\$stamp"
+$backupDir = New-ExternalBackupDir $ModsDir $stamp
 
 New-Item -ItemType Directory -Path $workDir | Out-Null
-New-Item -ItemType Directory -Path $backupDir | Out-Null
 
 Write-Host "Mods directory: $ModsDir"
 Write-Host "Backup directory: $backupDir"
+Write-Host "Backups are stored outside the mods folder so the mod loader cannot detect them."
 
 if (Test-Path -LiteralPath $PrismProject) {
     $baseVersion = Get-PackageVersion $PrismProject "Alchyr.Sts2.BaseLib"
@@ -202,14 +217,30 @@ $ritsuAsset = Get-Asset $ritsuRelease "STS2-RitsuLib.*.variant-pack.zip"
 Write-Host "BaseLib: $baseVersion"
 Write-Host "RitsuLib: $ritsuVersion"
 
-Backup-ExistingDependency $ModsDir "BaseLib*" $backupDir
-Backup-ExistingDependency $ModsDir "STS2-RitsuLib*" $backupDir
-
 $baseTarget = Join-Path $ModsDir ([IO.Path]::GetFileNameWithoutExtension($baseAsset.name))
 $ritsuTarget = Join-Path $ModsDir ([IO.Path]::GetFileNameWithoutExtension($ritsuAsset.name))
 
-Install-ZipToFolder $baseAsset $baseTarget $workDir
-Install-ZipToFolder $ritsuAsset $ritsuTarget $workDir
+$baseZipPath = Join-Path $workDir $baseAsset.name
+$ritsuZipPath = Join-Path $workDir $ritsuAsset.name
+Write-Host "Downloading $($baseAsset.name)"
+Invoke-WebRequest -Uri $baseAsset.browser_download_url -OutFile $baseZipPath
+Write-Host "Downloading $($ritsuAsset.name)"
+Invoke-WebRequest -Uri $ritsuAsset.browser_download_url -OutFile $ritsuZipPath
+
+Backup-ExistingDependency $ModsDir "BaseLib*" $backupDir
+Backup-ExistingDependency $ModsDir "STS2-RitsuLib*" $backupDir
+
+if (Test-Path -LiteralPath $baseTarget) {
+    Remove-Item -LiteralPath $baseTarget -Recurse -Force
+}
+New-Item -ItemType Directory -Path $baseTarget | Out-Null
+Expand-Archive -Path $baseZipPath -DestinationPath $baseTarget -Force
+
+if (Test-Path -LiteralPath $ritsuTarget) {
+    Remove-Item -LiteralPath $ritsuTarget -Recurse -Force
+}
+New-Item -ItemType Directory -Path $ritsuTarget | Out-Null
+Expand-Archive -Path $ritsuZipPath -DestinationPath $ritsuTarget -Force
 
 if (-not $SkipPrismRebuild -and (Test-Path -LiteralPath $PrismProject)) {
     Write-Host "Publishing PrismMod"
