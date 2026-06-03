@@ -8,6 +8,7 @@ import datetime as dt
 import json
 import os
 import shutil
+import subprocess
 import sys
 import tempfile
 import urllib.request
@@ -42,6 +43,15 @@ def fail(message: str) -> None:
 
 
 def request_json(url: str) -> dict[str, Any]:
+    if os.name == "nt":
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as temp:
+            temp_path = Path(temp.name)
+        try:
+            powershell_download(url, temp_path)
+            return json.loads(temp_path.read_text(encoding="utf-8"))
+        finally:
+            temp_path.unlink(missing_ok=True)
+
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=30) as response:
         return json.loads(response.read().decode("utf-8"))
@@ -61,9 +71,33 @@ def find_asset(release: dict[str, Any], contains: tuple[str, ...], suffix: str =
 
 
 def download(url: str, dest: Path) -> None:
+    if os.name == "nt":
+        powershell_download(url, dest)
+        return
+
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=180) as response, dest.open("wb") as output:
         shutil.copyfileobj(response, output)
+
+
+def powershell_download(url: str, dest: Path) -> None:
+    url_literal = json.dumps(url)
+    dest_literal = json.dumps(str(dest))
+    agent_literal = json.dumps(USER_AGENT)
+    script = (
+        "$ProgressPreference='SilentlyContinue'; "
+        "[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; "
+        f"Invoke-WebRequest -UseBasicParsing -Headers @{{ 'User-Agent' = {agent_literal} }} "
+        f"-Uri {url_literal} -OutFile {dest_literal}"
+    )
+    result = subprocess.run(
+        ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script],
+        text=True,
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout).strip()
+        fail(f"다운로드 실패: {url}\n{detail}")
 
 
 def unique_paths(paths: list[Path]) -> list[Path]:
@@ -206,7 +240,7 @@ def install_zip(zip_path: Path, mods_dir: Path, folder_name: str | None = None) 
         shutil.rmtree(temp_extract, ignore_errors=True)
 
 
-def install_all(mods_dir: Path, backup_root: Path, force_prism: bool) -> None:
+def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: bool) -> None:
     log("GitHub 최신 릴리스 확인 중...")
     prism_release = latest_release(PRISM_REPO)
     base_release = latest_release(BASELIB_REPO)
@@ -219,6 +253,13 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool) -> None:
     log(f"PrismMod: {prism_release.get('tag_name', '(unknown)')}")
     log(f"BaseLib: {base_release.get('tag_name', '(unknown)')}")
     log(f"RitsuLib: {ritsu_release.get('tag_name', '(unknown)')}")
+    log(f"PrismMod ZIP: {prism_asset.get('name')}")
+    log(f"BaseLib ZIP: {base_asset.get('name')}")
+    log(f"RitsuLib ZIP: {ritsu_asset.get('name')}")
+
+    if dry_run:
+        log("dry-run: 다운로드와 설치를 건너뜁니다.")
+        return
 
     with tempfile.TemporaryDirectory(prefix="prism_download_") as temp:
         temp_dir = Path(temp)
@@ -253,6 +294,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Install latest PrismMod and STS2 dependencies.")
     parser.add_argument("--mods-dir", help="Slay the Spire 2 mods 폴더를 직접 지정합니다.")
     parser.add_argument("--force-prism", action="store_true", help="PrismMod를 백업 후 다시 설치합니다.")
+    parser.add_argument("--dry-run", action="store_true", help="최신 릴리스 확인만 하고 설치하지 않습니다.")
     return parser.parse_args()
 
 
@@ -280,7 +322,7 @@ def main() -> int:
     log(f"백업 폴더: {backup_root}")
     log("주의: 백업은 모드 인식을 피하기 위해 mods 폴더 밖에 저장합니다.")
 
-    install_all(mods_dir, backup_root, args.force_prism)
+    install_all(mods_dir, backup_root, args.force_prism, args.dry_run)
 
     log("")
     log("완료. 게임을 완전히 종료한 뒤 다시 실행하고 모드 목록에서 Prism Shirou를 켜세요.")
