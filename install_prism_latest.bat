@@ -3,7 +3,7 @@ setlocal EnableExtensions
 chcp 65001 > nul
 
 set "PYTHONUTF8=1"
-set "SCRIPT_URL=https://raw.githubusercontent.com/skbyunea413-beep/STS2-BossPlayable/main/tools/install_prism_latest.py"
+set "SCRIPT_URL=https://raw.githubusercontent.com/skbyunea413-beep/STS2-BossPlayable/main/tools/install_prism_latest.py?cache=%RANDOM%%RANDOM%"
 set "TEMP_SCRIPT=%TEMP%\install_prism_latest_%RANDOM%%RANDOM%.py"
 
 echo PrismMod GitHub Installer
