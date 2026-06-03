@@ -139,6 +139,67 @@ def fail(message: str) -> None:
     raise RuntimeError(message)
 
 
+def github_asset_url(repo: str, tag: str, name: str) -> str:
+    return f"https://github.com/{repo}/releases/download/{tag}/{name}"
+
+
+def latest_tag_from_redirect(repo: str) -> str:
+    url = f"https://github.com/{repo}/releases/latest"
+    curl = shutil.which("curl.exe") or shutil.which("curl")
+    if curl:
+        result = subprocess.run(
+            [curl, "-L", "-s", "-o", "NUL" if os.name == "nt" else "/dev/null", "-w", "%{url_effective}", url],
+            text=True,
+            capture_output=True,
+        )
+        effective = result.stdout.strip()
+        if result.returncode == 0 and "/releases/tag/" in effective:
+            return effective.rsplit("/releases/tag/", 1)[1].split("?", 1)[0].strip("/")
+
+    if os.name == "nt":
+        script = (
+            "$ProgressPreference='SilentlyContinue'; "
+            "[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; "
+            f"$r=Invoke-WebRequest -UseBasicParsing -Headers @{{ 'User-Agent' = {json.dumps(USER_AGENT)} }} "
+            f"-Uri {json.dumps(url)}; $r.BaseResponse.ResponseUri.AbsoluteUri"
+        )
+        result = subprocess.run(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script],
+            text=True,
+            capture_output=True,
+        )
+        effective = result.stdout.strip()
+        if result.returncode == 0 and "/releases/tag/" in effective:
+            return effective.rsplit("/releases/tag/", 1)[1].split("?", 1)[0].strip("/")
+
+    fail(ko("GitHub \\ucd5c\\uc2e0 \\ud0dc\\uadf8\\ub97c \\ucc3e\\uc9c0 \\ubabb\\ud588\\uc2b5\\ub2c8\\ub2e4: ") + repo)
+
+
+def fallback_release(repo: str) -> dict[str, Any]:
+    tag = latest_tag_from_redirect(repo)
+    version = tag.lstrip("v")
+    if repo == PRISM_REPO:
+        asset_name = "PrismMod.zip"
+    elif repo == BASELIB_REPO:
+        asset_name = f"BaseLib.{version}.zip"
+    elif repo == RITSULIB_REPO:
+        asset_name = f"STS2-RitsuLib.{version}.variant-pack.zip"
+    else:
+        fail(ko("\\uc54c \\uc218 \\uc5c6\\ub294 GitHub \\uc800\\uc7a5\\uc18c\\uc785\\ub2c8\\ub2e4: ") + repo)
+
+    return {
+        "tag_name": tag,
+        "html_url": f"https://github.com/{repo}/releases/tag/{tag}",
+        "assets": [
+            {
+                "name": asset_name,
+                "browser_download_url": github_asset_url(repo, tag, asset_name),
+            }
+        ],
+        "_source": "redirect-fallback",
+    }
+
+
 def request_json(url: str) -> dict[str, Any]:
     if os.name == "nt":
         with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as temp:
@@ -155,7 +216,11 @@ def request_json(url: str) -> dict[str, Any]:
 
 
 def latest_release(repo: str) -> dict[str, Any]:
-    return request_json(f"https://api.github.com/repos/{repo}/releases/latest")
+    try:
+        return request_json(f"https://api.github.com/repos/{repo}/releases/latest")
+    except Exception:
+        row("[INFO]", "GitHub", ko("API \\uc751\\ub2f5 \\uc81c\\ud55c, \\ub9b4\\ub9ac\\uc2a4 \\ud398\\uc774\\uc9c0\\ub85c \\ud655\\uc778: ") + repo)
+        return fallback_release(repo)
 
 
 def find_asset(release: dict[str, Any], contains: tuple[str, ...], suffix: str = ".zip") -> dict[str, Any]:
@@ -627,5 +692,7 @@ if __name__ == "__main__":
     except Exception as exc:
         setup_console()
         log("")
-        row("[ERROR]", "Installer", str(exc))
+        row("[ERROR]", "Installer", "")
+        for line in str(exc).splitlines() or [str(exc)]:
+            log("    " + line)
         raise SystemExit(1)
