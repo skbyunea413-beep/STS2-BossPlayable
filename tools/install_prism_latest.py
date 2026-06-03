@@ -45,6 +45,7 @@ STATE_COLORS = {
     "[OK]": "green",
     "[SKIP]": "blue",
     "[CHECK]": "cyan",
+    "[CREATE]": "cyan",
     "[GET]": "cyan",
     "[RUN]": "magenta",
     "[UPDATE]": "yellow",
@@ -332,14 +333,24 @@ def steam_library_paths() -> list[Path]:
     return unique_paths(libraries)
 
 
+def looks_like_game_dir(path: Path) -> bool:
+    markers = (
+        path / "data_sts2_windows_x86_64",
+        path / "SlayTheSpire2.exe",
+        path / "Slay the Spire 2.exe",
+        path / "mods",
+    )
+    return any(marker.exists() for marker in markers)
+
+
 def find_game_path() -> Path:
     registry_path = installed_game_path()
-    if registry_path:
+    if registry_path and looks_like_game_dir(registry_path):
         row("[OK]", "Game", ko("\\ub808\\uc9c0\\uc2a4\\ud2b8\\ub9ac\\uc5d0\\uc11c \\ucc3e\\uc74c: ") + str(registry_path))
         return registry_path
     for library in steam_library_paths():
         candidate = library / "steamapps" / "common" / GAME_FOLDER
-        if (candidate / "mods").exists() or (candidate / "data_sts2_windows_x86_64").exists():
+        if looks_like_game_dir(candidate):
             row("[OK]", "Game", ko("Steam \\ub77c\\uc774\\ube0c\\ub7ec\\ub9ac\\uc5d0\\uc11c \\ucc3e\\uc74c: ") + str(candidate))
             return candidate
     fail(ko("Slay the Spire 2 \\uc124\\uce58 \\uacbd\\ub85c\\ub97c \\ucc3e\\uc9c0 \\ubabb\\ud588\\uc2b5\\ub2c8\\ub2e4. --mods-dir \\ub85c mods \\ud3f4\\ub354\\ub97c \\uc9c0\\uc815\\ud574 \\uc8fc\\uc138\\uc694."))
@@ -355,7 +366,13 @@ def resolve_mods_dir(requested: str | None) -> Path:
     else:
         mods_dir = find_game_path() / "mods"
         row("[OK]", "Mods", ko("\\uc790\\ub3d9 \\ud0d0\\uc0c9: ") + str(mods_dir))
+
+    existed = mods_dir.exists()
     mods_dir.mkdir(parents=True, exist_ok=True)
+    if existed:
+        row("[OK]", "Mods", ko("\\ud3f4\\ub354 \\uc874\\uc7ac"))
+    else:
+        row("[CREATE]", "Mods", ko("\\uccab \\uc124\\uce58\\uc6a9 mods \\ud3f4\\ub354 \\uc0dd\\uc131: ") + str(mods_dir))
     return mods_dir
 
 
