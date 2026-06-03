@@ -213,12 +213,31 @@ def backup_path(backup_root: Path, source: Path) -> Path:
     return target
 
 
-def backup_matching(mods_dir: Path, backup_root: Path, prefixes: tuple[str, ...]) -> None:
+def read_mod_id(folder: Path) -> str | None:
+    candidates = list(folder.glob("*.json")) + list(folder.glob("mod_manifest.json"))
+    for path in candidates:
+        try:
+            data = json.loads(path.read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+            continue
+        mod_id = data.get("id")
+        if isinstance(mod_id, str) and mod_id:
+            return mod_id
+    return None
+
+
+def backup_matching(
+    mods_dir: Path,
+    backup_root: Path,
+    prefixes: tuple[str, ...],
+    mod_ids: tuple[str, ...] = (),
+) -> None:
     for entry in mods_dir.iterdir():
         if not entry.is_dir():
             continue
         lower = entry.name.lower()
-        if any(lower.startswith(prefix.lower()) for prefix in prefixes):
+        mod_id = read_mod_id(entry)
+        if any(lower.startswith(prefix.lower()) for prefix in prefixes) or (mod_id in mod_ids):
             dest = backup_path(backup_root, entry)
             log(f"백업: {entry.name} -> {dest}")
             shutil.move(str(entry), str(dest))
@@ -231,6 +250,8 @@ def install_zip(zip_path: Path, mods_dir: Path, folder_name: str | None = None) 
             archive.extractall(temp_extract)
         children = [path for path in temp_extract.iterdir() if path.name != "__MACOSX"]
         source = children[0] if len(children) == 1 and children[0].is_dir() else temp_extract
+        if not folder_name and source == temp_extract:
+            fail(f"ZIP has no top-level folder and no target folder was provided: {zip_path.name}")
         target = mods_dir / (folder_name or source.name)
         if target.exists():
             shutil.rmtree(target)
@@ -272,7 +293,8 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
             log(f"다운로드: {asset['name']}")
             download(asset["browser_download_url"], path)
 
-        backup_matching(mods_dir, backup_root, ("BaseLib", "STS2-RitsuLib"))
+        backup_matching(mods_dir, backup_root, ("prism_extract_",))
+        backup_matching(mods_dir, backup_root, ("BaseLib", "STS2-RitsuLib"), ("BaseLib", "STS2-RitsuLib"))
 
         prism_target = mods_dir / "PrismMod"
         if prism_target.exists() and force_prism:
@@ -286,8 +308,9 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
             shutil.move(str(prism_target), str(dest))
 
         log(f"설치 완료: {install_zip(downloads[0][1], mods_dir, 'PrismMod')}")
-        log(f"설치 완료: {install_zip(downloads[1][1], mods_dir)}")
-        log(f"설치 완료: {install_zip(downloads[2][1], mods_dir)}")
+        base_version = str(base_release.get("tag_name", "")).lstrip("v") or "latest"
+        log(f"설치 완료: {install_zip(downloads[1][1], mods_dir, f'BaseLib.{base_version}')}")
+        log(f"설치 완료: {install_zip(downloads[2][1], mods_dir, 'STS2-RitsuLib')}")
 
 
 def parse_args() -> argparse.Namespace:
