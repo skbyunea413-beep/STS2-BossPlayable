@@ -49,6 +49,7 @@ STATE_COLORS = {
     "[GET]": "cyan",
     "[RUN]": "magenta",
     "[UPDATE]": "yellow",
+    "[REPAIR]": "yellow",
     "[MISSING]": "yellow",
     "[MISS]": "yellow",
     "[BACKUP]": "yellow",
@@ -628,6 +629,21 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
     recorded_prism_fingerprint = state.get("prism_fingerprint")
 
     row("[CHECK]", "Installed", ko("\\ud604\\uc7ac \\ud30c\\uc77c \\ud655\\uc778"))
+    prism_reason = ""
+    if force_prism:
+        prism_reason = ko("\\uac15\\uc81c \\uc7ac\\uc124\\uce58")
+    elif not prism_dirs:
+        prism_reason = ko("\\uc124\\uce58\\ub428 \\uc5c6\\uc74c")
+    elif state.get("prism_release") != prism_tag:
+        old = state.get("prism_release") or ko("\\uc774\\uc804 \\uc0c1\\ud0dc \\uc5c6\\uc74c")
+        prism_reason = f"{old} -> {prism_tag}"
+    elif not current_prism_fingerprint:
+        prism_reason = ko("\\ud604\\uc7ac \\ud3f4\\ub354 \\uc9c0\\ubb38 \\uc5c6\\uc74c")
+    elif not recorded_prism_fingerprint:
+        prism_reason = ko("\\uc124\\uce58 \\uae30\\ub85d\\uc5d0 \\uc9c0\\ubb38 \\uc5c6\\uc74c")
+    elif current_prism_fingerprint != recorded_prism_fingerprint:
+        prism_reason = ko("\\uc124\\uce58 \\ud30c\\uc77c\\uc774 \\uae30\\ub85d\\ub41c \\ucd5c\\uc2e0 \\uc0c1\\ud0dc\\uc640 \\ub2e4\\ub984")
+
     prism_needs_install = (
         force_prism
         or not prism_dirs
@@ -638,11 +654,14 @@ def install_all(mods_dir: Path, backup_root: Path, force_prism: bool, dry_run: b
     if prism_dirs and not prism_needs_install:
         row("[SKIP]", "PrismMod", f"{prism_tag} ({', '.join(p.name for p in prism_dirs)})")
     elif prism_dirs:
-        old = state.get("prism_release") or ko("\\uc774\\uc804 \\uc0c1\\ud0dc \\uc5c6\\uc74c")
-        if old == prism_tag and current_prism_fingerprint != recorded_prism_fingerprint:
-            row("[UPDATE]", "PrismMod", ko("\\uc124\\uce58 \\ud30c\\uc77c\\uc774 \\uae30\\ub85d\\ub41c \\ucd5c\\uc2e0 \\uc0c1\\ud0dc\\uc640 \\ub2e4\\ub984: ") + ", ".join(p.name for p in prism_dirs))
+        names = ", ".join(p.name for p in prism_dirs)
+        if prism_reason in (
+            ko("\\ud604\\uc7ac \\ud3f4\\ub354 \\uc9c0\\ubb38 \\uc5c6\\uc74c"),
+            ko("\\uc124\\uce58 \\uae30\\ub85d\\uc5d0 \\uc9c0\\ubb38 \\uc5c6\\uc74c"),
+        ):
+            row("[REPAIR]", "PrismMod", prism_reason + ko(" -> \\uc0ad\\uc81c \\ud6c4 \\uc7ac\\uc124\\uce58: ") + names)
         else:
-            row("[UPDATE]", "PrismMod", f"{old} -> {prism_tag} ({', '.join(p.name for p in prism_dirs)})")
+            row("[UPDATE]", "PrismMod", f"{prism_reason} ({names})")
     else:
         row("[MISSING]", "PrismMod", ko("\\uc124\\uce58\\ub428 \\uc5c6\\uc74c -> \\uc124\\uce58"))
 
